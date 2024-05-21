@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
 
         val testing = "branch"
+        //hallo ini coba
+
 
         navView.setupWithNavController(navController)
     }
