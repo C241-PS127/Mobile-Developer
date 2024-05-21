@@ -1,2 +1,1 @@
-# Lokal.Ind
-Lokal.Ind
+# local.ind
