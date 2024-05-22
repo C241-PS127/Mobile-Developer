@@ -153,7 +153,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/txt_recommendation"
                 app:layout_goneMarginEnd="8dp"
-                tools:listitem="@layout/card_product" />
+                tools:listitem="@layout/product" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -202,7 +202,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_explore"
                 app:layout_goneMarginEnd="8dp"
-                tools:listitem="@layout/card_product" />
+                tools:listitem="@layout/product" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
