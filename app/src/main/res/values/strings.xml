@@ -9,4 +9,8 @@
     <string name="cart">Cart</string>
     <string name="wishlist">Wishlist</string>
     <string name="profile">Profile</string>
+    <string name="recommendation">Recommendation</string>
+    <string name="explore">Explore</string>
+    <string name="brand">Brand</string>
+    <string name="type">Type</string>
 </resources>
