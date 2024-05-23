@@ -29,11 +29,24 @@ class CartFragment : Fragment() {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            // Lakukan tindakan untuk memuat ulang data
+            // Misalnya, muat ulang data dari server atau database lokal
+            loadData()
+        }
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun loadData() {
+        // Misalnya, muat ulang data dari server atau database lokal
+        // Setelah selesai, berhentikan animasi refresh
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 }

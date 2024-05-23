@@ -29,6 +29,7 @@ class SearchFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+
         return root
     }
 
