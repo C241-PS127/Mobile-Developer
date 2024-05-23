@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.lokalin.R
 import com.example.lokalin.databinding.FragmentCategoriesBinding
@@ -34,14 +35,15 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        binding.imgRecycler.setOnClickListener(){
+            it.findNavController().navigate(R.id.recycleFragment)
+        }
+
 
 
         return root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.sample_menu, menu)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

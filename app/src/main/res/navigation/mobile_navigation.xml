@@ -9,7 +9,14 @@
         android:id="@+id/navigation_home"
         android:name="com.example.lokalin.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_recycleFragment"
+            app:destination="@id/recycleFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_categories"
@@ -34,6 +41,16 @@
         android:name="com.example.lokalin.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/recycleFragment"
+        android:name="com.example.lokalin.ui.recycle.RecycleFragment"
+        android:label="fragment_recycle"
+        tools:layout="@layout/fragment_recycle" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.lokalin.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 
 
 </navigation>
