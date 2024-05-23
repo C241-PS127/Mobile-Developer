@@ -54,7 +54,6 @@ dependencies {
 
     implementation("com.tbuonomo:dotsindicator:5.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
-
-
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
 }

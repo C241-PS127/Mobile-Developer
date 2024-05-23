@@ -49,7 +49,7 @@
                 android:background="@drawable/background_grey" />
 
             <Button
-                android:id="@+id/btn_remove"
+                android:id="@+id/btn_fav"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_gravity="bottom|end"
@@ -98,7 +98,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_title_description" />
 
         <ProgressBar
-            android:id="@+id/progressbar_rv_cart"
+            android:id="@+id/progressbar_rv_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

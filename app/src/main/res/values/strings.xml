@@ -21,4 +21,14 @@
     <string name="add_to_cart">Add to Cart</string>
     <string name="message">Message</string>
     <string name="subtotal">Subtotal</string>
+    <string name="username">Username</string>
+    <string name="title_name">Name</string>
+    <string name="icon_person">Icon Person</string>
+    <string name="name">This is name</string>
+    <string name="icon_email">Icon Email</string>
+    <string name="title_email">Email</string>
+    <string name="email">This is email</string>
+    <string name="icon_phone">Icon Phone</string>
+    <string name="title_phone">Phone Number</string>
+    <string name="phone">This is phone number</string>
 </resources>
