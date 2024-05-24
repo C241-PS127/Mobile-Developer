@@ -31,4 +31,6 @@
     <string name="icon_phone">Icon Phone</string>
     <string name="title_phone">Phone Number</string>
     <string name="phone">This is phone number</string>
+    <string name="official_brand">Official Brand</string>
+    <string name="login">Login</string>
 </resources>
