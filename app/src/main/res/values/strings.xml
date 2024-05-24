@@ -33,4 +33,5 @@
     <string name="phone">This is phone number</string>
     <string name="official_brand">Official Brand</string>
     <string name="login">Login</string>
+    <string name="btn_delete">Tombol delete</string>
 </resources>
