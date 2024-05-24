@@ -33,5 +33,12 @@
     <string name="phone">This is phone number</string>
     <string name="official_brand">Official Brand</string>
     <string name="login">Login</string>
-    <string name="btn_delete">Tombol delete</string>
+    <string name="btn_delete">Button delete</string>
+    <string name="btn_category">Button category</string>
+    <string name="clothes">Clothes</string>
+    <string name="trousers">Trousers</string>
+    <string name="shoes">Shoes</string>
+    <string name="skirt">Skirt</string>
+    <string name="order_history">Order History</string>
+    <string name="icon_order_history">Icon order history</string>
 </resources>
