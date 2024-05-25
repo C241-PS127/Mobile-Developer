@@ -1,18 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:text="@string/profile"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="45dp"
+                android:background="@android:color/transparent"
+                app:icon="@drawable/ic_baseline_logout_24"
+                app:iconTint="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/app_bar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_bar"
-            android:layout_width="match_parent"
+            android:layout_width="409dp"
             android:layout_height="wrap_content"
             android:background="@drawable/background_profile"
             android:padding="40dp"
@@ -25,20 +69,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/title_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:text="@string/profile"
-                android:textColor="@color/black"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/img_product"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_product"
                 android:layout_width="150dp"
@@ -48,7 +78,7 @@
                 app:layout_constraintBottom_toTopOf="@id/username"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_profile"
+                app:layout_constraintTop_toBottomOf="parent"
                 tools:src="@tools:sample/avatars" />
 
             <TextView
@@ -63,16 +93,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/img_product" />
-
-            <Button
-                android:id="@+id/btn_logout"
-                android:layout_width="50dp"
-                android:layout_height="35dp"
-                android:background="@android:color/transparent"
-                app:icon="@drawable/ic_baseline_logout_24"
-                app:iconTint="@android:color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -222,6 +242,7 @@
             android:id="@+id/lay_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
             android:background="@drawable/background_grey"
             android:clickable="true"
             android:focusable="true"
@@ -230,7 +251,6 @@
             android:paddingTop="5dp"
             android:paddingEnd="15dp"
             android:paddingBottom="5dp"
-            android:layout_marginTop="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lay_phone">
@@ -269,9 +289,7 @@
                 android:src="@drawable/baseline_keyboard_arrow_right_24" />
 
         </LinearLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
