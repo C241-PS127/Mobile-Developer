@@ -54,6 +54,7 @@
                 android:padding="16dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/item_category" />
 
             <ProgressBar
