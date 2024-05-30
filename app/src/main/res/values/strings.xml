@@ -38,4 +38,17 @@
     <string name="order_history">Order History</string>
     <string name="icon_order_history">Icon order history</string>
     <string name="category_name">Category name</string>
+    <string name="btn_myshop">Button my shop</string>
+    <string name="myshop">My Shop</string>
+    <string name="icon_myshop">Icon my shop</string>
+    <string name="shopname">Shop name</string>
+    <string name="myproduct">My Product</string>
+    <string name="btn_myproduct">Button my product</string>
+    <string name="icon_addproduct">Icon add product</string>
+    <string name="addproduct">Add Product</string>
+    <string name="btn_addproduct">Button add product</string>
+    <string name="icon_orders">Icon Orders</string>
+    <string name="orders">Orders</string>
+    <string name="btn_orders">Button orders</string>
+    <string name="manageyourshop">Manage Your Shop</string>
 </resources>
