@@ -51,4 +51,14 @@
     <string name="orders">Orders</string>
     <string name="btn_orders">Button orders</string>
     <string name="manageyourshop">Manage Your Shop</string>
+    <string name="gallery">Add photo</string>
+    <string name="name_product">Name</string>
+    <string name="description">Description</string>
+    <string name="upload">Upload</string>
+    <string name="description_hint">Enter description</string>
+    <string name="name_hint">Enter name</string>
+    <string name="category">Category</string>
+    <string name="stock">Stock</string>
+    <string name="stock_hint">Enter stock</string>
+    <string name="price_hint">Enter price</string>
 </resources>
