@@ -39,6 +39,9 @@ class HomeFragment : Fragment() {
             it.findNavController().navigate(R.id.recycleFragment)
         }
 
+        binding.cameraButton.setOnClickListener(){
+            it.findNavController().navigate(R.id.searchFragment)
+        }
 
 
         return root
