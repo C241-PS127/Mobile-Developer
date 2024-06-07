@@ -1,9 +1,11 @@
 package com.example.api
 
 import com.example.response.LoginResponse
+import com.example.response.Product
 import com.example.response.RegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -23,6 +25,9 @@ interface ApiService {
     suspend fun login(
         @Field("email") email: String, @Field("password") password: String
     ): LoginResponse
+
+    @GET("products")
+    suspend fun getAllProducts(): List<Product>
 
 
 }
