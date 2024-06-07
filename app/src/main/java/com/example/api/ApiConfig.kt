@@ -20,7 +20,7 @@ object ApiConfig {
         }
         val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor).build()
-        val retrofit = Retrofit.Builder().baseUrl("")
+        val retrofit = Retrofit.Builder().baseUrl("https://lokal-ind.et.r.appspot.com/")
             .addConverterFactory(GsonConverterFactory.create()).client(client).build()
         return retrofit.create(ApiService::class.java)
     }
