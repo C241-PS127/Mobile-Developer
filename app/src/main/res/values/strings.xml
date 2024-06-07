@@ -61,4 +61,11 @@
     <string name="stock">Stock</string>
     <string name="stock_hint">Enter stock</string>
     <string name="price_hint">Enter price</string>
+
+
+    <string name="tab_text_1">Riwayat</string>
+    <string name="tab_text_2">Pembayaran</string>
+    <string name="tab_text_3">Diproses</string>
+    <string name="tab_text_4">Dikirim</string>
+
 </resources>

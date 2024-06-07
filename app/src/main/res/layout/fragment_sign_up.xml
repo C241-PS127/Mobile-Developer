@@ -155,46 +155,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/phoneTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Phone Number"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phoneEditTextLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phoneTextView"
-                app:startIconDrawable="@drawable/baseline_phone_android_24">
-
-                <com.example.lokalin.view.EmailEditText
-                    android:id="@+id/phoneEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
                 android:id="@+id/passwordTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
                 android:text="Password"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phoneEditTextLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passwordEditTextLayout"
@@ -216,29 +184,6 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/facebook_btn"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="100dp"
-                android:src="@drawable/facebook"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/google_btn"
-                app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout" />
-
-            <ImageView
-                android:id="@+id/google_btn"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/search"
-                app:layout_constraintEnd_toStartOf="@id/facebook_btn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout" />
-
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="0dp"
@@ -246,11 +191,11 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="Sign up"
+                android:text="Next"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/google_btn" />
+                app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout"
+                tools:layout_editor_absoluteY="489dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

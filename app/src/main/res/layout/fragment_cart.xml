@@ -26,12 +26,21 @@
                 android:id="@+id/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="16dp"
                 android:layout_toEndOf="@id/back_button"
                 android:text="@string/cart"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/history_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_history_24"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp" />
+
         </androidx.appcompat.widget.Toolbar>
 
 

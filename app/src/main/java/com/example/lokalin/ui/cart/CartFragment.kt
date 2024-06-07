@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.example.lokalin.R
 import com.example.lokalin.databinding.FragmentCartBinding
 import com.example.lokalin.ui.cart.CartViewModel
 
@@ -36,6 +38,11 @@ class CartFragment : Fragment() {
             // Misalnya, muat ulang data dari server atau database lokal
             loadData()
         }
+
+        binding.historyImg.setOnClickListener(){
+            it.findNavController().navigate(R.id.historyFragment)
+        }
+
         return root
     }
 
