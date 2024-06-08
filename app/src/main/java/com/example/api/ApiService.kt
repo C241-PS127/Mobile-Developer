@@ -1,12 +1,15 @@
 package com.example.api
 
+import com.example.response.Brand
 import com.example.response.LoginResponse
 import com.example.response.Product
 import com.example.response.RegisterResponse
+import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @FormUrlEncoded
@@ -29,5 +32,10 @@ interface ApiService {
     @GET("products")
     suspend fun getAllProducts(): List<Product>
 
+    @GET("brands")
+    suspend fun getBrands(): List<Brand>
+
+    @GET("products/{id}")
+    suspend fun getProductDetail(@Path("id") productId: String): Response<List<Product>>
 
 }

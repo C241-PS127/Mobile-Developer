@@ -2,6 +2,10 @@ package com.example.response
 
 import com.google.gson.annotations.SerializedName
 
+data class ProductResponse(
+    val products: List<Product>
+)
+
 data class Product(
     @SerializedName("ProductId")
     val productId: String,
@@ -22,7 +26,7 @@ data class Product(
     @SerializedName("isAvailable")
     val isAvailable: Boolean,
     @SerializedName("Pictures")
-    val pictures: String,
+    val pictures: List<String>,
     @SerializedName("CreatedAt")
     val createdAt: String,
     @SerializedName("UpdatedAt")

@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.di.Injection
+import com.example.lokalin.ui.detailproduct.DetailViewModel
 import com.example.lokalin.ui.home.HomeViewModel
+import com.example.lokalin.ui.search.SearchViewModel
 import com.example.repo.Repository
 
 class ViewModelFactory(private val repository: Repository) :
@@ -16,6 +18,12 @@ class ViewModelFactory(private val repository: Repository) :
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
                 HomeViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
+                SearchViewModel(repository) as T
+            }modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(repository) as T
+            }
+
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

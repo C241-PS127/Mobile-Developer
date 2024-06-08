@@ -16,6 +16,10 @@
         <action
             android:id="@+id/action_navigation_home_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_detailProductFragment"
+            app:destination="@id/detailProductFragment" />
+
     </fragment>
 
     <fragment
@@ -57,12 +61,35 @@
         android:id="@+id/searchFragment"
         android:name="com.example.lokalin.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <argument
+            android:name="query"
+            android:defaultValue="86c83f45-6a02-491e-a213-6569b270b13b"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.example.lokalin.ui.history.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.lokalin.ui.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/signUpFragment2"
+        android:name="com.example.lokalin.ui.signup.SignUpFragment"
+        android:label="SignUpFragment" />
+    <fragment
+        android:id="@+id/detailProductFragment"
+        android:name="com.example.lokalin.ui.detailproduct.DetailProductFragment"
+        android:label="fragment_detail_product"
+        tools:layout="@layout/fragment_detail_product" >
+        <argument
+            android:name="ProductId"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
 
 
 </navigation>
