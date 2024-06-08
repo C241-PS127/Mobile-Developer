@@ -26,7 +26,22 @@
         android:id="@+id/navigation_categories"
         android:name="com.example.lokalin.ui.categories.CategoriesFragment"
         android:label="@string/categories"
-        tools:layout="@layout/fragment_categories" />
+        tools:layout="@layout/fragment_categories" >
+        <action
+            android:id="@+id/action_navigation_categories_to_navigation_productbycategory"
+            app:destination="@id/navigation_productbycategory" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_productbycategory"
+        android:name="com.example.lokalin.ui.categories.ProductByCategoryFragment"
+        android:label="@string/productbycategories"
+        tools:layout="@layout/fragment_product_by_category" >
+        <argument
+            android:name="CategoryId"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_cart"

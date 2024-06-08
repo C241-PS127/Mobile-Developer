@@ -1,10 +1,15 @@
 package com.example.repo
 
 import androidx.datastore.core.IOException
+import androidx.lifecycle.liveData
 import com.example.api.ApiService
 import com.example.response.Brand
+import com.example.response.CategoryResponseItem
 import com.example.response.Product
 import com.example.storyapp.data.pref.UserPreference
+import com.example.utils.ResultState
+import com.google.gson.Gson
+import retrofit2.HttpException
 
 class Repository private constructor(
     private var apiService: ApiService, private val userPreference: UserPreference
@@ -27,6 +32,9 @@ class Repository private constructor(
         }
     }
 
+    suspend fun getCategories(): List<CategoryResponseItem> {
+        return apiService.getCategories()
+    }
 
     companion object {
         @Volatile

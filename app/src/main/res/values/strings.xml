@@ -69,5 +69,6 @@
     <string name="tab_text_2">Pembayaran</string>
     <string name="tab_text_3">Diproses</string>
     <string name="tab_text_4">Dikirim</string>
+    <string name="productbycategories">Product by category</string>
 
 </resources>

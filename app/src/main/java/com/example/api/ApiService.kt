@@ -1,6 +1,7 @@
 package com.example.api
 
 import com.example.response.Brand
+import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
 import com.example.response.Product
 import com.example.response.RegisterResponse
@@ -38,4 +39,6 @@ interface ApiService {
     @GET("products/{id}")
     suspend fun getProductDetail(@Path("id") productId: String): Response<List<Product>>
 
+    @GET("categories")
+    suspend fun getCategories(): List<CategoryResponseItem>
 }
