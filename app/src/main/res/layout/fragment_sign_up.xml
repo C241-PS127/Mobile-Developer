@@ -115,12 +115,76 @@
                 app:layout_constraintTop_toBottomOf="@+id/nameTextView"
                 app:startIconDrawable="@drawable/baseline_person_24">
 
-                <com.example.lokalin.view.EmailEditText
+                <EditText
                     android:id="@+id/nameEditText"
+                    android:hint="Masukkan Nama"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:inputType="textEmailAddress" />
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/addressTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Address"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addressEditTextView"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressTextView"
+                app:startIconDrawable="@drawable/baseline_home_24">
+
+                <EditText
+                    android:id="@+id/addressEditText"
+                    android:hint="Masukkan Alamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/phoneTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Phone Number"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressEditTextView" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneEditTextLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phoneTextView"
+                app:startIconDrawable="@drawable/baseline_phone_android_24">
+
+                <EditText
+                    android:id="@+id/phoneEditText"
+                    android:hint="Masukkan Nomor "
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -132,7 +196,7 @@
                 android:text="Email"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/phoneEditTextLayout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailEditTextLayout"
@@ -185,13 +249,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/signupbtn"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginTop="16dp"
-                android:text="Next"
+                android:enabled="false"
+                android:text="Sign Up"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout"

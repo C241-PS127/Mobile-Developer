@@ -1,23 +1,21 @@
 package com.example.lokalin.ui.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioButton
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
-import com.example.lokalin.databinding.FragmentRecycleBinding
 import com.example.lokalin.databinding.FragmentSearchBinding
-import com.example.lokalin.ui.home.ExploreAdapter
-import com.example.lokalin.ui.home.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SearchFragment : Fragment() {
@@ -33,41 +31,51 @@ class SearchFragment : Fragment() {
     lateinit var cbTerdekat: RadioButton
     lateinit var cbTerjauh: RadioButton
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.imgBack.setOnClickListener(){
+        binding.imgBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
         setFilterData()
+        setupSearchView()
 
-        val adapter = BrandAdapter()
+        val adapter = BrandAdapter { brandName ->
+            binding.searchview.setQuery(brandName, true)
+        }
+
         binding.rvBrands.adapter = adapter
         binding.rvBrands.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        viewModel.brands.observe(viewLifecycleOwner) { stories ->
-            adapter.submitList(stories)
+        viewModel.brands.observe(viewLifecycleOwner) { brands ->
+            adapter.submitList(brands)
         }
 
         val args: SearchFragmentArgs by navArgs()
         val query = args.query
-
         binding.searchview.setQuery(query, false)
-
 
         return root
     }
 
-    private fun Search(){
+    private fun setupSearchView() {
+        binding.searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener  {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    performSearch(it)
+                }
+                return true
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
     }
 
     private fun setFilterData() {
@@ -102,9 +110,11 @@ class SearchFragment : Fragment() {
                 if (isChecked) {
                 }
             }
-
         }
     }
 
-
+    private fun performSearch(query: String) {
+        val action = SearchFragmentDirections.actionSearchFragmentSelf(query)
+        view?.findNavController()?.navigate(action)
+    }
 }

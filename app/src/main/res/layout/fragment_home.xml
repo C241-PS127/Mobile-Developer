@@ -42,32 +42,16 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                        <androidx.appcompat.widget.SearchView
+                            android:id="@+id/searchview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            app:defaultQueryHint="Search Here"
+                            app:iconifiedByDefault="false"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                            <androidx.appcompat.widget.SearchView
-                                android:id="@+id/searchview"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                app:defaultQueryHint="Search Here"
-                                app:iconifiedByDefault="false"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/camera_button"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <ImageView
-                                android:id="@+id/camera_button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:padding="8dp"
-                                android:src="@drawable/outline_camera_alt_24"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -79,8 +63,19 @@
                         android:layout_marginEnd="20dp"
                         android:src="@drawable/baseline_recycling_24"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/img_logout"
                         app:layout_constraintStart_toEndOf="@id/material_cardview"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/img_logout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/ic_baseline_logout_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/img_recycler"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -104,11 +99,64 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_user"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:visibility="gone"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_launcher_background"/>
+
+                <TextView
+                    android:id="@+id/tv_lokaltitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="Hai locals"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/img_user"
+                    app:layout_constraintTop_toTopOf="@+id/img_user" />
+                <TextView
+                    android:id="@+id/tv_lokaldesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:textSize="12sp"
+                    android:text="Login dan nikmati belanja barang lokal"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/img_user"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_lokaltitle" />
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="gone"
+
+                    android:minWidth="55dp"
+                    android:minHeight="32dp"
+                    android:padding="6dp"
+                    android:text="Login"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_lokaldesc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_lokaldesc"
+                    app:layout_constraintTop_toTopOf="@+id/tv_lokaltitle" />
+
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraint_viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/img_user"
+                    >
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewpagerSlider"

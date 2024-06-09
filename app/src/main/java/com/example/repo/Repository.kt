@@ -5,20 +5,68 @@ import androidx.lifecycle.liveData
 import com.example.api.ApiService
 import com.example.response.Brand
 import com.example.response.CategoryResponseItem
+import com.example.response.LoginResponse
 import com.example.response.Product
+import com.example.response.RegisterResponse
+import com.example.storyapp.data.pref.UserModel
 import com.example.storyapp.data.pref.UserPreference
 import com.example.utils.ResultState
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
 class Repository private constructor(
     private var apiService: ApiService, private val userPreference: UserPreference
-){
+) {
     suspend fun getProducts(): List<Product> {
         return apiService.getAllProducts()
     }
 
-    suspend fun getBrands(): List<Brand>{
+    fun updateApiService(apiService: ApiService) {
+        this.apiService = apiService
+    }
+
+    fun registerData(
+        name: String, address: String, phoneNumber: String, email: String, password: String
+    ) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.register(
+                name, address, phoneNumber, email, picture = "", password = password
+            )
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
+            emit(errorResponse.message?.let { ResultState.Error(it) })
+        }
+    }
+
+    suspend fun logout() {
+        userPreference.logout()
+    }
+
+    fun login(email: String, password: String) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.login(email, password)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
+//            emit(errorResponse.message?.let { ResultState.Error(it) })
+        }
+    }
+
+    suspend fun saveSession(user: UserModel) {
+        userPreference.saveSession(user)
+    }
+
+    fun getSession(): Flow<UserModel> {
+        return userPreference.getSession()
+    }
+
+    suspend fun getBrands(): List<Brand> {
         return apiService.getBrands()
     }
 

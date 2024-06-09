@@ -7,7 +7,9 @@ import com.example.di.Injection
 import com.example.lokalin.ui.categories.CategoriesViewModel
 import com.example.lokalin.ui.detailproduct.DetailViewModel
 import com.example.lokalin.ui.home.HomeViewModel
+import com.example.lokalin.ui.login.LoginViewModel
 import com.example.lokalin.ui.search.SearchViewModel
+import com.example.lokalin.ui.signup.SignUpViewModel
 import com.example.repo.Repository
 
 class ViewModelFactory(private val repository: Repository) :
@@ -27,7 +29,12 @@ class ViewModelFactory(private val repository: Repository) :
             modelClass.isAssignableFrom(CategoriesViewModel::class.java) -> {
                 CategoriesViewModel(repository) as T
             }
-
+            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
+                LoginViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(SignUpViewModel::class.java) -> {
+                SignUpViewModel(repository) as T
+            }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_home_to_detailProductFragment"
             app:destination="@id/detailProductFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_loginFragment"
+            app:destination="@id/loginFragment" />
 
     </fragment>
 
@@ -81,6 +84,9 @@
             android:name="query"
             android:defaultValue="86c83f45-6a02-491e-a213-6569b270b13b"
             app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment_self"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -90,7 +96,14 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.lokalin.ui.login.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_loginFragment_to_navigation_home2"
+            app:destination="@id/navigation_home" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment2"
         android:name="com.example.lokalin.ui.signup.SignUpFragment"
