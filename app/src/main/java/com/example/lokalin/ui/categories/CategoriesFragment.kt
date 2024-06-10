@@ -53,15 +53,6 @@ class CategoriesFragment : Fragment() {
             adapter.submitList(stories)
         }
 
-        viewModel.loading.observe(viewLifecycleOwner) { hasil ->
-           // showLoading(hasil)
-            binding.proggressbarViewpager.visibility = if (hasil) View.VISIBLE else View.GONE
-        }
-
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.proggressbarViewpager.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

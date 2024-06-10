@@ -17,18 +17,20 @@ import com.bumptech.glide.Glide
 import com.example.lokalin.R
 import com.example.lokalin.databinding.ItemCategoryBinding
 import com.example.lokalin.databinding.ProductBinding
+import com.example.lokalin.databinding.WishlistItemBinding
 import com.example.lokalin.ui.categories.CategoriesFragmentDirections
+import com.example.lokalin.ui.wishlist.WishlistFragmentDirections
 import com.example.response.CategoryResponseItem
 import com.example.response.Product
+import com.example.response.WishlistResponseItem
 import java.text.NumberFormat
 import java.util.Locale
-
-class CategoryAdapter :
-    ListAdapter<CategoryResponseItem, CategoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class WishlistAdapter :
+    ListAdapter<WishlistResponseItem, WishlistAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding =
-            ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            WishlistItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
@@ -37,17 +39,19 @@ class CategoryAdapter :
         holder.bind(data)
     }
 
-    class MyViewHolder(private val binding: ItemCategoryBinding) :
+    class MyViewHolder(private val binding: WishlistItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val categoryTextView: TextView = itemView.findViewById(R.id.categoryName)
-        fun bind(data: CategoryResponseItem) {
-            categoryTextView.text = data.categoryName
+        private val nameTextView: TextView = itemView.findViewById(R.id.tv_type)
+        private val priceTextView: TextView = itemView.findViewById(R.id.tv_price)
+        private val brandTextView: TextView = itemView.findViewById(R.id.tv_brand)
+        fun bind(data: WishlistResponseItem) {
+            nameTextView.text = data.productName
+            brandTextView.text = data.brandName
+            priceTextView.text = data.unitPrice.toString()
 
             binding.root.setOnClickListener() {
                 val action =
-                    CategoriesFragmentDirections.actionNavigationCategoriesToNavigationProductbycategory(
-                        data.categoryId!!
-                    )
+                    WishlistFragmentDirections.actionNavigationWishlistToDetailProductFragment(data.productId!!)
                 it.findNavController().navigate(action)
             }
         }
@@ -55,16 +59,16 @@ class CategoryAdapter :
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CategoryResponseItem>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WishlistResponseItem>() {
             override fun areItemsTheSame(
-                oldItem: CategoryResponseItem,
-                newItem: CategoryResponseItem
+                oldItem: WishlistResponseItem,
+                newItem: WishlistResponseItem
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: CategoryResponseItem, newItem: CategoryResponseItem
+                oldItem: WishlistResponseItem, newItem: WishlistResponseItem
             ): Boolean {
                 return oldItem == newItem
             }

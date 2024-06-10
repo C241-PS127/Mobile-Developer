@@ -5,10 +5,13 @@ import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
 import com.example.response.Product
 import com.example.response.RegisterResponse
+import com.example.response.UserProfileResponseItem
+import com.example.response.WishlistResponseItem
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -30,6 +33,9 @@ interface ApiService {
         @Field("email") email: String, @Field("password") password: String
     ): LoginResponse
 
+    @GET("auth/dbhsj/profile")
+    suspend fun getProfile(@Header("Authorization") token: String): List<UserProfileResponseItem>
+
     @GET("products")
     suspend fun getAllProducts(): List<Product>
 
@@ -41,4 +47,7 @@ interface ApiService {
 
     @GET("categories")
     suspend fun getCategories(): List<CategoryResponseItem>
+
+    @GET("wishlist")
+    suspend fun getWishlist(): List<WishlistResponseItem>
 }

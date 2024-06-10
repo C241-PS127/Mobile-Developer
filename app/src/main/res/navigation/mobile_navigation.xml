@@ -63,7 +63,11 @@
         android:id="@+id/navigation_wishlist"
         android:name="com.example.lokalin.ui.wishlist.WishlistFragment"
         android:label="@string/wishlist"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_wishlist" >
+        <action
+            android:id="@+id/action_navigation_wishlist_to_detailProductFragment"
+            app:destination="@id/detailProductFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"

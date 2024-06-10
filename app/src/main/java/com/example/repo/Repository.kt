@@ -8,6 +8,7 @@ import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
 import com.example.response.Product
 import com.example.response.RegisterResponse
+import com.example.response.WishlistResponseItem
 import com.example.storyapp.data.pref.UserModel
 import com.example.storyapp.data.pref.UserPreference
 import com.example.utils.ResultState
@@ -58,6 +59,24 @@ class Repository private constructor(
         }
     }
 
+    fun getProfile(token: String) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.getProfile(token)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorMessage = when (e.code()) {
+                401 -> "Unauthorized access. Please check your credentials."
+                403 -> "Forbidden access. You don't have permission to access this resource."
+                404 -> "Profile not found."
+                500 -> "Internal server error. Please try again later."
+                else -> "Something went wrong. Error code: ${e.code()}"
+            }
+            emit(ResultState.Error(errorMessage))
+        }
+    }
+
+
     suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }
@@ -83,6 +102,11 @@ class Repository private constructor(
     suspend fun getCategories(): List<CategoryResponseItem> {
         return apiService.getCategories()
     }
+
+    suspend fun getWishlist(): List<WishlistResponseItem> {
+        return apiService.getWishlist()
+    }
+
 
     companion object {
         @Volatile
