@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.di.Injection
+import com.example.lokalin.ui.cart.CartViewModel
 import com.example.lokalin.ui.categories.CategoriesViewModel
 import com.example.lokalin.ui.detailproduct.DetailViewModel
 import com.example.lokalin.ui.home.HomeViewModel
@@ -42,6 +43,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(WishlistViewModel::class.java) -> {
                 WishlistViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(CartViewModel::class.java) -> {
+                CartViewModel(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

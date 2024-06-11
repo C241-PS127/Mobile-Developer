@@ -63,10 +63,13 @@
         android:id="@+id/navigation_wishlist"
         android:name="com.example.lokalin.ui.wishlist.WishlistFragment"
         android:label="@string/wishlist"
-        tools:layout="@layout/fragment_wishlist" >
+        tools:layout="@layout/fragment_wishlist">
         <action
             android:id="@+id/action_navigation_wishlist_to_detailProductFragment"
             app:destination="@id/detailProductFragment" />
+        <action
+            android:id="@+id/action_navigation_wishlist_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
     </fragment>
 
     <fragment
@@ -121,6 +124,9 @@
             android:name="ProductId"
             android:defaultValue=""
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailProductFragment_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
     </fragment>
 
 

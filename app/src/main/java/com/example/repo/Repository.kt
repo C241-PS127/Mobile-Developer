@@ -3,7 +3,9 @@ package com.example.repo
 import androidx.datastore.core.IOException
 import androidx.lifecycle.liveData
 import com.example.api.ApiService
+import com.example.response.AddCartResponse
 import com.example.response.Brand
+import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
 import com.example.response.Product
@@ -110,10 +112,24 @@ class Repository private constructor(
         return apiService.getCategories()
     }
 
-    suspend fun getWishlist(): List<WishlistResponseItem> {
-        return apiService.getWishlist()
+    suspend fun getWishlist(token: String): List<WishlistResponseItem> {
+        val wishlist = apiService.getWishlist(token)
+        return wishlist ?: emptyList()
     }
 
+    suspend fun deleteWishlist(token: String, wishlistId: String): List<WishlistResponseItem> {
+        return apiService.deleteWishlist(token, wishlistId)
+    }
+
+
+    suspend fun getMyCart(token: String): List<CartResponseItem> {
+        val cart = apiService.getMyCart(token)
+        return cart ?: emptyList()
+    }
+
+    suspend fun addCart(token: String, productId: String, count: Int): AddCartResponse {
+        return apiService.addCart(token, productId, count)
+    }
 
     companion object {
         @Volatile

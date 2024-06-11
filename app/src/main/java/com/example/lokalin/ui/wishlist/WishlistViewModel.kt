@@ -1,5 +1,6 @@
 package com.example.lokalin.ui.wishlist
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,25 +13,35 @@ import com.example.response.WishlistResponseItem
 import com.example.storyapp.data.pref.UserModel
 import com.example.utils.ResultState
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class WishlistViewModel(private val repository: Repository) : ViewModel() {
 
-    private val _wishlist = MutableLiveData<List<WishlistResponseItem>>()
-    val wishlist: LiveData<List<WishlistResponseItem>> get() = _wishlist
+    private var _wishlist = MutableLiveData<List<WishlistResponseItem>?>()
+    val wishlist: LiveData<List<WishlistResponseItem>?> get() = _wishlist
 
     private val _isLoading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _isLoading
 
-    init {
-        allWishlist()
-    }
-
-    fun allWishlist() {
+    fun allWishlist(token: String) {
         _isLoading.postValue(true)
         viewModelScope.launch {
             try {
-                val wishlist = repository.getWishlist()
+                val wishlist = repository.getWishlist(token)
                 _wishlist.postValue(wishlist)
+            } catch (_: Exception) {
+
+            }
+        }
+    }
+
+    fun deleteWishlist(token: String, wishlistId: String) {
+        viewModelScope.launch {
+            try {
+                repository.deleteWishlist(token, wishlistId)
+                val currentList = _wishlist.value.orEmpty().toMutableList()
+                currentList.removeAll { it.wishlistId == wishlistId }
+                _wishlist.value = currentList
             } catch (_: Exception) {
 
             }
@@ -40,4 +51,15 @@ class WishlistViewModel(private val repository: Repository) : ViewModel() {
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
     }
+
+    fun addCart(token: String, productId: String, count: Int) {
+        viewModelScope.launch {
+            try {
+                val product = repository.addCart(token, productId, count)
+            } catch (e: IOException) {
+                // Handle error
+            }
+        }
+    }
+
 }

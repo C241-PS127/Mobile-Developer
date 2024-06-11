@@ -48,16 +48,19 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/background_grey" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_fav"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="8dp"
                 android:background="@android:color/transparent"
-                android:gravity="center"
-                app:icon="@drawable/baseline_favorite_24"
+                android:src="@drawable/baseline_favorite_24"
+                android:scaleType="fitCenter"
+                android:padding="12dp"
+                android:clickable="true"
                 app:iconTint="@android:color/black" />
+
 
         </FrameLayout>
 
@@ -168,6 +171,7 @@
             app:layout_constraintBottom_toTopOf="@id/add_cart_btn">
 
             <TextView
+                android:id="@+id/btn_plus"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_margin="2dp"
@@ -179,6 +183,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/btn_min"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_margin="2dp"
@@ -221,6 +226,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/background_white"
             android:text="@string/add_to_cart"
+            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/constraint_quantity" />
 

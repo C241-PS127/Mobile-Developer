@@ -39,8 +39,9 @@ class WishlistFragment : Fragment() {
 
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (user.isLogin) {
-                setupAction()
-            } else{
+                setupAction(user.token)
+                viewModel.allWishlist(user.token)
+            } else {
                 Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
             }
         }
@@ -48,14 +49,16 @@ class WishlistFragment : Fragment() {
         return root
     }
 
-    private fun setupAction() {
-        val adapter = WishlistAdapter()
+    private fun setupAction(token: String) {
+        val adapter = WishlistAdapter(viewModel, token)
         binding.recWishlist.adapter = adapter
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recWishlist.layoutManager = layoutManager
 
         viewModel.wishlist.observe(viewLifecycleOwner) { wishlist ->
-            adapter.submitList(wishlist)
+            if (wishlist?.isNotEmpty() == true) {
+                adapter.submitList(wishlist)
+            }
         }
     }
 

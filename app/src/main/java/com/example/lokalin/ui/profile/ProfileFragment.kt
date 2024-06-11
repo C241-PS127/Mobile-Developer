@@ -38,7 +38,6 @@ class ProfileFragment : Fragment() {
             if (user.isLogin) {
                 setupAction(user.token)
                 binding.btnLogout.visibility = View.VISIBLE
-                Log.d("Tag", "Token ${user.token}")
             }
         }
 

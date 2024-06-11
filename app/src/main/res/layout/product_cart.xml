@@ -44,6 +44,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_type" />
 
     <TextView
+        android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -85,6 +86,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/txt_count_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"

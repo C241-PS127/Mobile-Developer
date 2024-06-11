@@ -26,6 +26,15 @@ class DetailViewModel(private val repository: Repository) : ViewModel() {
             }
         }
     }
+    fun addCart(token: String, productId: String, count: Int) {
+        viewModelScope.launch {
+            try {
+                val product = repository.addCart(token, productId, count)
+            } catch (e: IOException) {
+                // Handle error
+            }
+        }
+    }
 }
 
 
