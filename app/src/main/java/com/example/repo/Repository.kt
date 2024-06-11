@@ -39,9 +39,13 @@ class Repository private constructor(
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
-            emit(errorResponse.message?.let { ResultState.Error(it) })
+            val errorMessage = errorResponse.message ?: e.message()
+            emit(ResultState.Error(errorMessage))
+        } catch (e: Exception) {
+            emit(ResultState.Error(e.message ?: "An error occurred"))
         }
     }
+
 
     suspend fun logout() {
         userPreference.logout()
@@ -55,9 +59,12 @@ class Repository private constructor(
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
-//            emit(errorResponse.message?.let { ResultState.Error(it) })
+            emit(ResultState.Error("An error occurred"))
+        } catch (e: Exception) {
+            emit(ResultState.Error(e.message ?: "An error occurred"))
         }
     }
+
 
     fun getProfile(token: String) = liveData {
         emit(ResultState.Loading)

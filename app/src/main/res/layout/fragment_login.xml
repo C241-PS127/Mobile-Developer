@@ -35,7 +35,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_toEndOf="@id/back_button"
                 android:text="@string/login"
-                android:textColor="@color/black"
+                android:textColor="#102C57"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -45,34 +45,32 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:orientation="horizontal"
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_end="430dp"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHorizontal2"
-        android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="87dp"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar" />
 
     <ImageView
         android:id="@+id/img_login_slide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontal"
+        android:src="@drawable/thanksinsomnia"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:scaleType="fitCenter"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guidelineHorizontal2"
+        app:layout_constraintBottom_toTopOf="@id/mtrl_card_view"
         app:layout_constraintVertical_bias="1.0" />
 
     <com.google.android.material.card.MaterialCardView
@@ -81,7 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/ligh_grey"
+        android:backgroundTint="@color/white"
+        app:cardElevation="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -100,7 +99,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:text="Nikmati Berbelanja Barang Lokal"
-                android:textColor="@color/black"
+                android:textColor="#102C57"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -114,7 +113,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:text="Isi Data Login"
-                android:textColor="@color/black"
+                android:textColor="@color/red"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +126,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:text="Email"
-                android:textColor="@color/black"
+                android:textColor="#102C57"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_reminder" />
 
@@ -170,6 +169,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:passwordToggleEnabled="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/passwordTextView"
                 app:startIconDrawable="@drawable/baseline_lock_24">
@@ -188,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Don't have an account? "
+                android:text="Tidak Punya akun? "
                 app:layout_constraintEnd_toEndOf="@+id/loginButton"
                 app:layout_constraintHorizontal_bias="0.403"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -199,23 +199,24 @@
                 android:id="@+id/tv_signupbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/red"
                 android:layout_marginBottom="16dp"
-                android:text="Sign Up "
+                android:text="Sign Up"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/tv_signuptittle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/loginButton"
                 android:layout_width="0dp"
-                android:layout_height="64dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:enabled="false"
+                android:background="@drawable/round_button_enabled"
                 android:text="@string/login"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout" />

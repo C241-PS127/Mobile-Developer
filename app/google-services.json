@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "772747919087",
+    "project_id": "lokalind-12d21",
+    "storage_bucket": "lokalind-12d21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772747919087:android:8281bcdd7582878831a51a",
+        "android_client_info": {
+          "package_name": "com.example.lokalin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpEbyUFAtMRHuggPVpvkunqQmHhBB2RoE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

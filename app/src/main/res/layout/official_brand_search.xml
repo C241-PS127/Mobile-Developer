@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="6dp"
         android:background="@drawable/backgorund_grey_round"
-        android:backgroundTint="@color/ligh_grey"
+        android:backgroundTint="@color/navy"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Brand"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:padding="6dp" />
 

@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Lokalin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/navy</item>
+        <item name="colorPrimaryVariant">@color/navy</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorOnSurfaceVariant">#FFFFFF</item>
@@ -14,6 +14,13 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerFamily" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item> <!-- Adjust as needed -->
+    </style>
+
+
 
 
     <style name="custom_card_view_style" parent="Widget.MaterialComponents.CardView">

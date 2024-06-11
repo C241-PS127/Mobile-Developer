@@ -11,17 +11,23 @@ import android.view.LayoutInflater
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentHomeBinding
+import com.example.response.SliderModel
 
 class HomeFragment : Fragment() {
 
@@ -33,9 +39,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -45,9 +49,35 @@ class HomeFragment : Fragment() {
         setupSearchView()
         setupView()
         refreshApp()
+        initBanner()
 
         return root
     }
+
+    private fun initBanner() {
+        binding.progressbar.visibility = View.VISIBLE
+        viewModel.banners.observe(requireActivity(), Observer { items ->
+            banners(items)
+            binding.progressbar.visibility = View.GONE
+        })
+        viewModel.loadBanners()
+    }
+
+    private fun banners(images: List<SliderModel>) {
+        binding.viewpagerSlider.adapter = SliderAdapter(images, binding.viewpagerSlider)
+        binding.viewpagerSlider.clipToPadding = false
+        binding.viewpagerSlider.clipChildren = true
+        binding.viewpagerSlider.offscreenPageLimit = 2
+        binding.viewpagerSlider.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+
+        binding.viewpagerSlider.setPageTransformer(ZoomOutPageTransformer())
+
+        if (images.size > 1) {
+            binding.indicatorDots.visibility = View.VISIBLE
+            binding.indicatorDots.attachTo(binding.viewpagerSlider)
+        }
+    }
+
 
     private fun setupSearchView() {
         val from = arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1)
@@ -73,10 +103,11 @@ class HomeFragment : Fragment() {
                 val columnIndex = cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1)
                 if (columnIndex >= 0) {
                     val suggestion = cursor.getString(columnIndex)
-                    val action = HomeFragmentDirections.actionNavigationHomeToSearchFragment(suggestion)
+                    val action =
+                        HomeFragmentDirections.actionNavigationHomeToSearchFragment(suggestion)
                     view?.findNavController()?.navigate(action)
                 }
-                binding.searchview.setQuery("",false)
+                binding.searchview.setQuery("", false)
                 return true
             }
 
@@ -93,7 +124,7 @@ class HomeFragment : Fragment() {
                 if (action != null) {
                     view?.findNavController()?.navigate(action)
                 }
-                binding.searchview.setQuery("",false)
+                binding.searchview.setQuery("", false)
                 return false
             }
 
@@ -107,7 +138,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun getSuggestions(query: String?): Cursor {
-        val matrixCursor = MatrixCursor(arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1))
+        val matrixCursor =
+            MatrixCursor(arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1))
         if (query != null) {
             // Dummy data for demonstration, replace with real data
             val suggestions = listOf("haloz 1", "rezqi 2", "erigo 3")
@@ -121,10 +153,10 @@ class HomeFragment : Fragment() {
         return matrixCursor
     }
 
-    private fun setupView(){
+    private fun setupView() {
         val adapter = ExploreAdapter()
         binding.rvExplore.adapter = adapter
-        binding.rvExplore.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.rvExplore.layoutManager = GridLayoutManager(requireContext(), 2)
 
         viewModel.products.observe(viewLifecycleOwner) { stories ->
             adapter.submitList(stories)
@@ -136,39 +168,45 @@ class HomeFragment : Fragment() {
                 binding.tvLokaltitle.visibility = View.VISIBLE
                 binding.imgUser.visibility = View.VISIBLE
                 binding.btnLogin.visibility = View.VISIBLE
+                binding.imgLogout.setOnClickListener() {
+                    Toast.makeText(requireActivity(),"Anda sudah logout", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                binding.imgLogout.setOnClickListener() {
+                    AlertDialog.Builder(requireActivity()).apply {
+                        setTitle("Logout")
+                        setMessage("Apakah anda ingin logout")
+                        setPositiveButton("Iya") { _, _ ->
+                            viewModel.logout()
+                            Toast.makeText(requireActivity(),"Berhasil logout", Toast.LENGTH_SHORT).show()
+                        }
+                        setNegativeButton("Tidak") { _, _ ->
+
+                        }
+                        create().show()
+                    }
+                }
             }
         }
 
-        binding.imgRecycler.setOnClickListener(){
+        binding.imgRecycler.setOnClickListener() {
             it.findNavController().navigate(R.id.recycleFragment)
         }
 
-        binding.btnLogin.setOnClickListener(){
+        binding.btnLogin.setOnClickListener() {
             it.findNavController().navigate(R.id.loginFragment)
         }
 
-        binding.imgLogout.setOnClickListener(){
-            AlertDialog.Builder(requireActivity()).apply {
-                setTitle("Logout")
-                setMessage("Apakah anda ingin logout")
-                setPositiveButton("Iya") { _, _ ->
-                    viewModel.logout()
-                }
-                setNegativeButton("Tidak"){_, _ ->
-
-                }
-                create().show()
-            }
-        }
+        initBanner()
     }
 
-    private fun refreshApp(){
-        binding.swipeRefreshLayout.setOnRefreshListener{
+    private fun refreshApp() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
             setupView()
             binding.swipeRefreshLayout.isRefreshing = false
+
         }
     }
-
 
 
     override fun onDestroyView() {
