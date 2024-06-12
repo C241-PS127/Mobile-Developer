@@ -47,14 +47,7 @@ class CartFragment : Fragment() {
             it.findNavController().navigate(R.id.historyFragment)
         }
 
-        viewModel.getSession().observe(viewLifecycleOwner) { user ->
-            if (user.isLogin) {
-                setupAction(user.token)
-                viewModel.allCart(user.token)
-            } else {
-                Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
-            }
-        }
+        loadCart()
 
         return root
     }
@@ -73,14 +66,24 @@ class CartFragment : Fragment() {
         }
     }
 
+    private fun loadCart(){
+        viewModel.getSession().observe(viewLifecycleOwner) { user ->
+            if (user.isLogin) {
+                setupAction(user.token)
+                viewModel.allCart(user.token)
+            } else {
+                Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     fun loadData() {
-        // Misalnya, muat ulang data dari server atau database lokal
-        // Setelah selesai, berhentikan animasi refresh
+        loadCart()
         binding.swipeRefreshLayout.isRefreshing = false
     }
 }
