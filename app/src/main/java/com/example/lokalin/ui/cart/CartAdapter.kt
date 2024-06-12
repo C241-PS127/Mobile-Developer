@@ -10,6 +10,9 @@ import com.example.lokalin.R
 import com.example.lokalin.databinding.ProductCartBinding
 import com.example.lokalin.ui.cart.CartViewModel
 import com.example.response.CartResponseItem
+import java.text.NumberFormat
+import java.util.Locale
+import kotlin.time.times
 
 class CartAdapter(private val viewModel: CartViewModel, private val token: String) :
     ListAdapter<CartResponseItem, CartAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -34,11 +37,20 @@ class CartAdapter(private val viewModel: CartViewModel, private val token: Strin
         fun bind(data: CartResponseItem) {
             binding.apply {
                 tvType.text = data.productName
-                tvPrice.text = data.unitPrice.toString()
+                val total = data.unitPrice?.times(data.count!!)
+                tvPrice.text = total?.let { formatRupiah(it) }
                 tvBrand.text = data.brandName
                 txtCountItem.text = data.count.toString()
+
             }
         }
+
+        private fun formatRupiah(amount: Int): String {
+            val localeID = Locale("in", "ID")
+            val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
+            return formatRupiah.format(amount)
+        }
+
 
     }
 

@@ -65,10 +65,8 @@
 
     <string name="searchbar_hint">Masukkan kata</string>
 
-    <string name="tab_text_1">Riwayat</string>
-    <string name="tab_text_2">Pembayaran</string>
-    <string name="tab_text_3">Diproses</string>
-    <string name="tab_text_4">Dikirim</string>
+    <string name="tab_text_1">Orders</string>
+    <string name="tab_text_2">History</string>
     <string name="productbycategories">Product by category</string>
     <string name="icon_address">Icon Address</string>
     <string name="title_address">Address</string>

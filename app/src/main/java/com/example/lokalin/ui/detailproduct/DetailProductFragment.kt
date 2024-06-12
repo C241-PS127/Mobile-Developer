@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
@@ -16,6 +18,7 @@ import com.example.lokalin.databinding.FragmentDetailProductBinding
 import com.example.lokalin.ui.categories.CategoriesFragmentDirections
 import com.example.lokalin.ui.wishlist.WishlistViewModel
 import com.example.response.Product
+import com.example.utils.ResultState
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -62,6 +65,8 @@ class DetailProductFragment : Fragment() {
         wishlistViewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (user.isLogin) {
                 setupAction(user.token)
+            }else{
+                setupAction(user.token)
             }
         }
 
@@ -105,34 +110,47 @@ class DetailProductFragment : Fragment() {
 
         binding.btnPlus.setOnClickListener {
             quantity += 1
-            binding.quantity.text = quantity.toString()
+            binding.tvQuantity.text = quantity.toString()
         }
 
-        binding.btnMin.setOnClickListener {
+        binding.btnMinus.setOnClickListener {
             if (quantity > 0) {
                 quantity -= 1
-                binding.quantity.text = quantity.toString()
+                binding.tvQuantity.text = quantity.toString()
             }
         }
     }
 
     fun setupAction(token: String) {
-        binding.addCartBtn.setOnClickListener {
-            var quantity = binding.quantity.text.toString().toIntOrNull() ?: 0
+        binding.btnAddToCart.setOnClickListener {
+            val quantity = binding.tvQuantity.text.toString().toIntOrNull() ?: 1
 
             viewModel.addCart(token, productId, quantity)
-            val action =
-                DetailProductFragmentDirections.actionDetailProductFragmentToNavigationCart()
-            it.findNavController().navigate(action)
-            Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
+            viewModel.cart.observe(viewLifecycleOwner) { resultState ->
+                when (resultState) {
+
+                    is ResultState.Success -> {
+                        Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
+                    }
+
+                    is ResultState.Error -> {
+                        Toast.makeText(requireContext(), "Gagal menambah cart", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        // Handle loading state if needed
+                    }
+                }
+            }
         }
     }
 
     private fun setDetail(product: Product) {
         binding.apply {
-            tvProductName.text = product.productName
-            tvDescription.text = product.productDescription
-            tvPrice.text = formatRupiah(product.unitPrice.toInt())
+            toolbarTitle.text = product.brandName
+            tvDetailName.text = product.productName
+            tvDetailType.text = product.categoryName
+            tvDetailDescription.text = product.productDescription
+            tvDetailPrice.text = formatRupiah(product.unitPrice.toInt())
 
         }
     }

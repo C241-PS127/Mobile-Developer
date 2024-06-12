@@ -97,9 +97,9 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.lokalin.ui.history.HistoryFragment"
+        android:name="com.example.lokalin.ui.Order.UserOrderFragment"
         android:label="fragment_history"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_user_order" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.lokalin.ui.login.LoginFragment"

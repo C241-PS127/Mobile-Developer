@@ -9,12 +9,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.repo.Repository
+import com.example.response.AddCartResponse
 import com.example.response.Product
+import com.example.response.RegisterResponse
+import com.example.utils.ResultState
 import kotlinx.coroutines.launch
 
 class DetailViewModel(private val repository: Repository) : ViewModel() {
     private val _productDetail = MutableLiveData<Product>()
     val productDetail: LiveData<Product> get() = _productDetail
+
+    private val _cart = MutableLiveData<ResultState<AddCartResponse>?>()
+    val cart: LiveData<ResultState<AddCartResponse>?> get() = _cart
 
     fun fetchProductDetail(productId: String) {
         viewModelScope.launch {
@@ -26,13 +32,9 @@ class DetailViewModel(private val repository: Repository) : ViewModel() {
             }
         }
     }
-    fun addCart(token: String, productId: String, count: Int) {
-        viewModelScope.launch {
-            try {
-                val product = repository.addCart(token, productId, count)
-            } catch (e: IOException) {
-                // Handle error
-            }
+    fun addCart(token: String, productId: String, count:Int) {
+        repository.addCart(token, productId, count).observeForever { resultState ->
+            _cart.postValue(resultState)
         }
     }
 }

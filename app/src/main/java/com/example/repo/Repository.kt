@@ -127,8 +127,25 @@ class Repository private constructor(
         return cart ?: emptyList()
     }
 
-    suspend fun addCart(token: String, productId: String, count: Int): AddCartResponse {
-        return apiService.addCart(token, productId, count)
+//    suspend fun addCart(token: String, productId: String, count: Int): AddCartResponse {
+//        return apiService.addCart(token, productId, count)
+//    }
+
+    fun addCart(token: String, productId: String, count: Int) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.addCart(
+                token, productId, count
+            )
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
+            val errorMessage = errorResponse.message ?: e.message()
+            emit(ResultState.Error(errorMessage))
+        } catch (e: Exception) {
+            emit(ResultState.Error(e.message ?: "An error occurred"))
+        }
     }
 
     companion object {
