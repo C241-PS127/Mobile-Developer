@@ -51,6 +51,7 @@ class HomeFragment : Fragment() {
         refreshApp()
         initBanner()
 
+
         return root
     }
 

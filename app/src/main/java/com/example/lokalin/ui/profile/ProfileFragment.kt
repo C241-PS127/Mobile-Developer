@@ -48,6 +48,16 @@ class ProfileFragment : Fragment() {
             adapter.submitList(stories)
         }
 
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                // Tampilkan indikator loading
+                binding.progressbar2.visibility = View.VISIBLE
+            } else {
+                // Sembunyikan indikator loading
+                binding.progressbar2.visibility = View.GONE
+            }
+        })
+
         initBanner()
 
         return root

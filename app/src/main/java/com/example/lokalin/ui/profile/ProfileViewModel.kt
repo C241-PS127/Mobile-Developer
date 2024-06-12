@@ -26,9 +26,14 @@ class ProfileViewModel(private val repository: Repository) : ViewModel() {
 
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> get() = _products
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     fun getProfile(token: String): LiveData<ResultState<List<UserProfileResponseItem>>> {
         return repository.getProfile(token)
     }
+
 
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
@@ -41,15 +46,19 @@ class ProfileViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun allProducts() {
+        _isLoading.postValue(true) // Set loading to true
         viewModelScope.launch {
             try {
                 val stories = repository.getProducts()
                 _products.postValue(stories)
             } catch (_: Exception) {
-
+                // Handle error
+            } finally {
+                _isLoading.postValue(false) // Set loading to false after request completes
             }
         }
     }
+
 
     fun loadBanners(){
         val Ref=firebaseDatabase.getReference("banners")
