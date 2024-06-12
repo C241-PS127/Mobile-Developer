@@ -4,6 +4,7 @@ import androidx.datastore.core.IOException
 import androidx.lifecycle.liveData
 import com.example.api.ApiService
 import com.example.response.AddCartResponse
+import com.example.response.AddWishlistResponse
 import com.example.response.Brand
 import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
@@ -117,6 +118,14 @@ class Repository private constructor(
         return wishlist ?: emptyList()
     }
 
+    suspend fun addWishlist(token: String, productId: String): AddWishlistResponse {
+
+        val successResponse = apiService.addWishlist(
+            token, productId
+        )
+        return successResponse
+    }
+
     suspend fun deleteWishlist(token: String, wishlistId: String): List<WishlistResponseItem> {
         return apiService.deleteWishlist(token, wishlistId)
     }
@@ -127,26 +136,32 @@ class Repository private constructor(
         return cart ?: emptyList()
     }
 
-//    suspend fun addCart(token: String, productId: String, count: Int): AddCartResponse {
-//        return apiService.addCart(token, productId, count)
-//    }
+    suspend fun addCart(token: String, productId: String, count: Int): AddCartResponse {
 
-    fun addCart(token: String, productId: String, count: Int) = liveData {
+        val successResponse = apiService.addCart(
+            token, productId, count
+        )
+        return successResponse
+    }
+
+    fun updateCart(token: String, cartId: String, count: Int) = liveData {
         emit(ResultState.Loading)
         try {
-            val successResponse = apiService.addCart(
-                token, productId, count
+            val successResponse = apiService.updateCart(
+                token, cartId, count
             )
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
-            val errorMessage = errorResponse.message ?: e.message()
-            emit(ResultState.Error(errorMessage))
+            emit(ResultState.Error("An error occurred"))
         } catch (e: Exception) {
             emit(ResultState.Error(e.message ?: "An error occurred"))
         }
     }
+
+    suspend fun deleteCart(token: String, cartId: String): AddCartResponse {
+        return apiService.deleteCart(token, cartId)
+    }
+
 
     companion object {
         @Volatile

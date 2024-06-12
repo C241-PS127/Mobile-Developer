@@ -19,7 +19,7 @@ class DetailViewModel(private val repository: Repository) : ViewModel() {
     private val _productDetail = MutableLiveData<Product>()
     val productDetail: LiveData<Product> get() = _productDetail
 
-    private val _cart = MutableLiveData<ResultState<AddCartResponse>?>()
+    private val _cart = MutableLiveData<ResultState<AddCartResponse>>()
     val cart: LiveData<ResultState<AddCartResponse>?> get() = _cart
 
     fun fetchProductDetail(productId: String) {
@@ -32,9 +32,12 @@ class DetailViewModel(private val repository: Repository) : ViewModel() {
             }
         }
     }
-    fun addCart(token: String, productId: String, count:Int) {
-        repository.addCart(token, productId, count).observeForever { resultState ->
-            _cart.postValue(resultState)
+    fun addCart(token: String, productId: String, count: Int) {
+        viewModelScope.launch {
+            try {
+                val response = repository.addCart(token, productId, count)
+            } catch (e: Exception) {
+            }
         }
     }
 }

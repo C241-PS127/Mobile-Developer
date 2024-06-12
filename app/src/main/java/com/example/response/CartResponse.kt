@@ -6,6 +6,7 @@ data class AddCartResponse(
 	@field:SerializedName("message")
 	val message: String? = null,
 )
+
 data class CartResponseItem(
 
 	@field:SerializedName("BrandName")
@@ -41,3 +42,27 @@ data class CartResponseItem(
 	@field:SerializedName("UpdatedAt")
 	val updatedAt: String? = null
 )
+data class UpdateCartResponse(
+
+	@field:SerializedName("CartId")
+	val cartId: String? = null,
+
+	@field:SerializedName("ProductId")
+	val productId: String? = null,
+
+	@field:SerializedName("CustomerId")
+	val customerId: String? = null,
+
+	@field:SerializedName("IsActive")
+	val isActive: Boolean? = null,
+
+	@field:SerializedName("CreatedAt")
+	val createdAt: String? = null,
+
+	@field:SerializedName("Count")
+	val count: Int? = null,
+
+	@field:SerializedName("UpdatedAt")
+	val updatedAt: String? = null
+)
+

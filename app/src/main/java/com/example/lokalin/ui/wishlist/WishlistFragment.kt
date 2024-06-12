@@ -15,6 +15,7 @@ import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentProfileBinding
 import com.example.lokalin.databinding.FragmentWishlistBinding
+import com.example.lokalin.ui.cart.CartViewModel
 import com.example.lokalin.ui.categories.CategoriesViewModel
 import com.example.lokalin.ui.home.CategoryAdapter
 import com.example.lokalin.ui.home.WishlistAdapter
@@ -25,6 +26,10 @@ class WishlistFragment : Fragment() {
     private var _binding: FragmentWishlistBinding? = null
 
     private val viewModel by viewModels<WishlistViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
+
+    private val cartViewModel by viewModels<CartViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
     private val binding get() = _binding!!

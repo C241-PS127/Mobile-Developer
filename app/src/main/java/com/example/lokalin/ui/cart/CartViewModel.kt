@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.repo.Repository
+import com.example.response.AddCartResponse
 import com.example.response.CartResponseItem
+import com.example.response.UpdateCartResponse
 import com.example.response.WishlistResponseItem
 import com.example.storyapp.data.pref.UserModel
+import com.example.utils.ResultState
 import kotlinx.coroutines.launch
 
 class CartViewModel(private val repository: Repository) : ViewModel() {
@@ -18,6 +21,9 @@ class CartViewModel(private val repository: Repository) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _isLoading
+
+    private val _result = MutableLiveData<ResultState<UpdateCartResponse>?>()
+    val result: LiveData<ResultState<UpdateCartResponse>?> get() = _result
 
     fun allCart(token: String) {
         _isLoading.postValue(true)
@@ -33,5 +39,24 @@ class CartViewModel(private val repository: Repository) : ViewModel() {
 
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
+    }
+
+    fun updateCart(token: String, cartId: String, count:Int) {
+        repository.updateCart(token, cartId, count).observeForever { resultState ->
+            _result.postValue(resultState)
+        }
+    }
+
+    fun deleteCart(token: String, cartId: String) {
+        viewModelScope.launch {
+            try {
+                repository.deleteCart(token, cartId)
+                val currentList = _cart.value.orEmpty().toMutableList()
+                currentList.removeAll { it.cartId == cartId }
+                _cart.value = currentList
+            } catch (_: Exception) {
+
+            }
+        }
     }
 }

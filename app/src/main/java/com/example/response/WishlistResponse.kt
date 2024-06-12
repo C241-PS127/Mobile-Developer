@@ -31,3 +31,10 @@ data class WishlistResponseItem(
 	@field:SerializedName("WishlistId")
 	val wishlistId: String? = null
 )
+
+data class AddWishlistResponse(
+
+	@field:SerializedName("message")
+	val message: String? = null,
+
+)

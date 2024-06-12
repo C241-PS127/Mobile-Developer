@@ -1,6 +1,7 @@
 package com.example.lokalin.ui.detailproduct
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,13 +10,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentDetailProductBinding
+import com.example.lokalin.ui.cart.CartViewModel
 import com.example.lokalin.ui.categories.CategoriesFragmentDirections
+import com.example.lokalin.ui.wishlist.WishlistFragmentDirections
 import com.example.lokalin.ui.wishlist.WishlistViewModel
 import com.example.response.Product
 import com.example.utils.ResultState
@@ -35,7 +39,14 @@ class DetailProductFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
+    private val cartViewModel by viewModels<CartViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
+
     private lateinit var productId: String
+
+    private lateinit var tokenUser: String // Jadikan global agar bisa diakses di seluruh kelas
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,38 +63,47 @@ class DetailProductFragment : Fragment() {
             setDetail(it)
         }
 
-        var statusFav = checkWishlistStatus(productId)
-        var wishlistId = getWishlistIdByProductId(productId)
-        if (statusFav) {
-            binding.btnFav.setImageResource(R.drawable.baseline_favorite_24)
-        } else {
-            binding.btnFav.setImageResource(R.drawable.baseline_favorite_red_24)
-        }
+        return root
+    }
 
-//        var token: String
-//
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         wishlistViewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (user.isLogin) {
+                tokenUser = user.token
+                cartViewModel.allCart(user.token)
                 setupAction(user.token)
-            }else{
-                setupAction(user.token)
+                wishlistViewModel.allWishlist(tokenUser)
             }
         }
 
-        binding.btnFav.setOnClickListener {
+        wishlistViewModel.wishlist.observe(viewLifecycleOwner) { wishlist ->
+            var statusFav = checkWishlistStatus(productId)
+            var wishlistId = getWishlistIdByProductId(productId)
+
             if (statusFav) {
-                // wishlistViewModel.deleteWishlist(token, wishlistId!!)
-                binding.btnFav.setImageResource(R.drawable.baseline_favorite_24)
-            } else {
-                //  favoriteUserViewModel.insert(favoriteUser)
                 binding.btnFav.setImageResource(R.drawable.baseline_favorite_red_24)
+            } else {
+                binding.btnFav.setImageResource(R.drawable.baseline_favorite_24)
+            }
+
+            binding.btnFav.setOnClickListener {
+                if (statusFav) {
+                    wishlistViewModel.deleteWishlist(tokenUser, wishlistId!!)
+                    binding.btnFav.setImageResource(R.drawable.baseline_favorite_24)
+                    Toast.makeText(requireContext(), "Berhasil menghapus wishlist", Toast.LENGTH_SHORT).show()
+                } else {
+                    wishlistViewModel.addWishlist(tokenUser, productId)
+                    binding.btnFav.setImageResource(R.drawable.baseline_favorite_red_24)
+                    Toast.makeText(requireContext(), "Berhasil menambah wishlist", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
         setupQuantity()
-
-        return root
     }
+
 
     fun checkWishlistStatus(productId: String): Boolean {
         val wishlist = wishlistViewModel.wishlist.value
@@ -100,6 +120,26 @@ class DetailProductFragment : Fragment() {
         wishlist?.forEach { item ->
             if (item.productId == productId) {
                 return item.wishlistId
+            }
+        }
+        return null
+    }
+
+    fun checkCartStatus(productId: String): Boolean {
+        val cart = cartViewModel.cart.value
+        cart?.forEach { item ->
+            if (item.productId == productId) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun getCartIdByProductId(productId: String): String? {
+        val cart = cartViewModel.cart.value
+        cart?.forEach { item ->
+            if (item.productId == productId) {
+                return item.cartId
             }
         }
         return null
@@ -124,21 +164,28 @@ class DetailProductFragment : Fragment() {
     fun setupAction(token: String) {
         binding.btnAddToCart.setOnClickListener {
             val quantity = binding.tvQuantity.text.toString().toIntOrNull() ?: 1
+            var statusCart = checkCartStatus(productId)
+            val cartId = getCartIdByProductId(productId)
+            if(!statusCart){
+                viewModel.addCart(token, productId, quantity)
+                cartViewModel.allCart(token)
+                Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
+                val action = DetailProductFragmentDirections.actionDetailProductFragmentToNavigationCart()
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.detailProductFragment, true)
+                    .build()
+                it.findNavController().navigate(action, navOptions)
 
-            viewModel.addCart(token, productId, quantity)
-            viewModel.cart.observe(viewLifecycleOwner) { resultState ->
-                when (resultState) {
+            } else {
+                if (cartId != null) {
+                    cartViewModel.updateCart(token, cartId, quantity)
+                    Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
+                    val action = DetailProductFragmentDirections.actionDetailProductFragmentToNavigationCart()
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(R.id.detailProductFragment, true)
+                        .build()
+                    it.findNavController().navigate(action, navOptions)
 
-                    is ResultState.Success -> {
-                        Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
-                    }
-
-                    is ResultState.Error -> {
-                        Toast.makeText(requireContext(), "Gagal menambah cart", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-                        // Handle loading state if needed
-                    }
                 }
             }
         }

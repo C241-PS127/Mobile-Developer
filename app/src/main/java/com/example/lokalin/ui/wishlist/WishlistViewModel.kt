@@ -52,12 +52,11 @@ class WishlistViewModel(private val repository: Repository) : ViewModel() {
         return repository.getSession().asLiveData()
     }
 
-    fun addCart(token: String, productId: String, count: Int) {
+    fun addWishlist(token: String, productId: String) {
         viewModelScope.launch {
             try {
-                val product = repository.addCart(token, productId, count)
-            } catch (e: IOException) {
-                // Handle error
+                val response = repository.addWishlist(token, productId)
+            } catch (e: Exception) {
             }
         }
     }

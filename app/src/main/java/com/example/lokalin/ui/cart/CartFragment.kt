@@ -5,18 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentCartBinding
 import com.example.lokalin.ui.cart.CartViewModel
-import com.example.lokalin.ui.wishlist.WishlistViewModel
+import java.text.NumberFormat
+import java.util.Locale
 
 class CartFragment : Fragment() {
 
@@ -62,7 +61,32 @@ class CartFragment : Fragment() {
             Log.d("TAG", "Hasil Cartku ${cart}")
             if (cart?.isNotEmpty() == true) {
                 adapter.submitList(cart)
+
+                val totalPrice = adapter.calculateTotalPrice()
+                binding.tvSubtotalPrice.text = formatRupiah(totalPrice.toLong())
+
+                calculateAndDisplayTotal()
             }
+        }
+    }
+
+    private fun calculateAndDisplayTotal() {
+        val subtotal = extractPrice(binding.tvSubtotalPrice.text.toString())
+        val fee = extractPrice(binding.tvFeePrice.text.toString())
+        val applicationFee = extractPrice(binding.tvApplicationFeePrice.text.toString())
+        val total = subtotal + fee + applicationFee
+        val totalRupiah = total.toDouble() / 100
+        binding.tvTotalPrice.text = formatRupiah(totalRupiah.toLong())
+    }
+
+    private fun extractPrice(priceText: String): Long {
+        return try {
+            val cleanString = priceText.replace(Regex("[Rp,.\\s]"), "")
+
+            val price = cleanString.toLong()
+            price
+        } catch (e: NumberFormatException) {
+            0L
         }
     }
 
@@ -75,6 +99,12 @@ class CartFragment : Fragment() {
                 Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun formatRupiah(amount: Long): String {
+        val localeID = Locale("in", "ID")
+        val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
+        return formatRupiah.format(amount)
     }
 
     override fun onDestroyView() {
