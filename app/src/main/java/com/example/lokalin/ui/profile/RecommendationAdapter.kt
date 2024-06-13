@@ -1,25 +1,22 @@
-package com.example.lokalin.ui.home
+package com.example.lokalin.ui.profile
 
-import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityOptionsCompat
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.lokalin.R
 import com.example.lokalin.databinding.ProductBinding
+import com.example.lokalin.ui.home.HomeFragmentDirections
 import com.example.response.ProductsItem
 import java.text.NumberFormat
 import java.util.Locale
 
-class ExploreAdapter : ListAdapter<ProductsItem, ExploreAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class RecommendationAdapter : ListAdapter<ProductsItem, RecommendationAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -49,7 +46,7 @@ class ExploreAdapter : ListAdapter<ProductsItem, ExploreAdapter.MyViewHolder>(DI
 
             binding.root.setOnClickListener(){
                 val action = user.productId?.let { it1 ->
-                    HomeFragmentDirections.actionNavigationHomeToDetailProductFragment(
+                    ProfileFragmentDirections.actionNavigationProfileToDetailProductFragment(
                         it1
                     )
                 }

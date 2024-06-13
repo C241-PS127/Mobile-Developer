@@ -31,8 +31,9 @@ class CartViewModel(private val repository: Repository) : ViewModel() {
             try {
                 val cart = repository.getMyCart(token)
                 _cart.postValue(cart)
+                _isLoading.postValue(false)
             } catch (_: Exception) {
-
+                _isLoading.postValue(true)
             }
         }
     }

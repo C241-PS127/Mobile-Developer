@@ -29,7 +29,10 @@ class WishlistViewModel(private val repository: Repository) : ViewModel() {
             try {
                 val wishlist = repository.getWishlist(token)
                 _wishlist.postValue(wishlist)
+                _isLoading.postValue(false)
+
             } catch (_: Exception) {
+                _isLoading.postValue(true)
 
             }
         }

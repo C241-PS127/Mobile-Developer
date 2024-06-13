@@ -6,7 +6,7 @@ import com.example.response.Brand
 import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
-import com.example.response.Product
+import com.example.response.ProductsItem
 import com.example.response.RegisterResponse
 import com.example.response.UpdateCartResponse
 import com.example.response.UserProfileResponseItem
@@ -43,13 +43,13 @@ interface ApiService {
     suspend fun getProfile(@Header("Authorization") token: String): List<UserProfileResponseItem>
 
     @GET("products")
-    suspend fun getAllProducts(): List<Product>
+    suspend fun getAllProducts(): List<ProductsItem>
 
     @GET("brands")
     suspend fun getBrands(): List<Brand>
 
     @GET("products/{id}")
-    suspend fun getProductDetail(@Path("id") productId: String): Response<List<Product>>
+    suspend fun getProductDetail(@Path("id") productId: String): Response<ProductsItem>
 
     @GET("categories")
     suspend fun getCategories(): List<CategoryResponseItem>
@@ -85,6 +85,12 @@ interface ApiService {
     suspend fun updateCart(
         @Header("Authorization") token: String,
         @Path("cartId") cartId: String, @Field("count") count: Int
+    ): UpdateCartResponse
+
+    @PATCH("cart/{cartId}")
+    suspend fun hideCart(
+        @Header("Authorization") token: String,
+        @Path("cartId") cartId: String, @Field("isActive") isActive: Boolean
     ): UpdateCartResponse
 
 

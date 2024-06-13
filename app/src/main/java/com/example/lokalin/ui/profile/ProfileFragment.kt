@@ -7,15 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentProfileBinding
-import com.example.lokalin.ui.home.ExploreAdapter
 import com.example.lokalin.ui.home.ZoomOutPageTransformer
 import com.example.response.SliderModel2
-import com.example.utils.ResultState
 
 class ProfileFragment : Fragment() {
 
@@ -33,32 +30,12 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        viewModel.getSession().observe(viewLifecycleOwner) { user ->
-            if (user.isLogin) {
-                setupAction(user.token)
-                //binding.btnLogout.visibility = View.VISIBLE
-            }
+        setupView()
+
+        binding.swipeRefresh.setOnRefreshListener(){
+            setupView()
+            binding.swipeRefresh.isRefreshing = false
         }
-
-        val adapter = ExploreAdapter()
-        binding.rvExplore.adapter = adapter
-        binding.rvExplore.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        viewModel.products.observe(viewLifecycleOwner) { stories ->
-            adapter.submitList(stories)
-        }
-
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-            if (isLoading) {
-                // Tampilkan indikator loading
-                binding.progressbar2.visibility = View.VISIBLE
-            } else {
-                // Sembunyikan indikator loading
-                binding.progressbar2.visibility = View.GONE
-            }
-        })
-
-        initBanner()
 
         return root
     }
@@ -89,30 +66,51 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun setupAction(token: String) {
-        viewModel.getProfile(token).observe(viewLifecycleOwner) {
-            if (it != null) {
-                when (it) {
-                    is ResultState.Loading -> {
-                        //showLoading(true)
-                    }
+    private fun recommendation(){
+        val adapter = RecommendationAdapter()
+        binding.rvExplore.adapter = adapter
+        binding.rvExplore.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-                    is ResultState.Success -> {
-                        binding.apply {
-                            tvName.text = it.data[0].fullName
-                            emailInput.text = it.data[0].email
-                            phoneInput.text = it.data[0].phone
-                            addressInput.text = it.data[0].address
-                        }
-                    }
+        viewModel.products.observe(viewLifecycleOwner) { stories ->
+            adapter.submitList(stories)
+        }
+    }
 
-                    is ResultState.Error -> {
-                        //showLoading(false)
-                        // showToast(it.error)
-                    }
-                }
+    private fun profile(token:String){
+        viewModel.getProfile(token)
+        viewModel.profile.observe(viewLifecycleOwner, Observer {
+            binding.tvName.text = it[0].fullName
+            binding.phoneInput.text = it[0].phone
+            binding.addressInput.text = it[0].address
+            binding.emailInput.text = it[0].email
+        })
+    }
+
+    private fun loading(){
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                // Tampilkan indikator loading
+                binding.progressbar2.visibility = View.VISIBLE
+                binding.progressIndicator.visibility = View.VISIBLE
+            } else {
+                // Sembunyikan indikator loading
+                binding.progressbar2.visibility = View.GONE
+                binding.progressIndicator.visibility = View.GONE
+            }
+        })
+    }
+
+    private fun setupView(){
+        viewModel.getSession().observe(viewLifecycleOwner) { user ->
+            if (user.isLogin) {
+                profile(user.token)
             }
         }
+        recommendation()
+        initBanner()
+        loading()
+        viewModel.allProducts()
+
     }
 
     override fun onDestroyView() {

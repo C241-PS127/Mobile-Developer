@@ -9,8 +9,9 @@ import com.example.response.Brand
 import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
-import com.example.response.Product
+import com.example.response.ProductsItem
 import com.example.response.RegisterResponse
+import com.example.response.UserProfileResponseItem
 import com.example.response.WishlistResponseItem
 import com.example.storyapp.data.pref.UserModel
 import com.example.storyapp.data.pref.UserPreference
@@ -22,8 +23,9 @@ import retrofit2.HttpException
 class Repository private constructor(
     private var apiService: ApiService, private val userPreference: UserPreference
 ) {
-    suspend fun getProducts(): List<Product> {
-        return apiService.getAllProducts()
+    suspend fun getProducts(): List<ProductsItem> {
+        val products = apiService.getAllProducts()
+        return products ?: emptyList()
     }
 
     fun updateApiService(apiService: ApiService) {
@@ -68,22 +70,9 @@ class Repository private constructor(
         }
     }
 
-
-    fun getProfile(token: String) = liveData {
-        emit(ResultState.Loading)
-        try {
-            val successResponse = apiService.getProfile(token)
-            emit(ResultState.Success(successResponse))
-        } catch (e: HttpException) {
-            val errorMessage = when (e.code()) {
-                401 -> "Unauthorized access. Please check your credentials."
-                403 -> "Forbidden access. You don't have permission to access this resource."
-                404 -> "Profile not found."
-                500 -> "Internal server error. Please try again later."
-                else -> "Something went wrong. Error code: ${e.code()}"
-            }
-            emit(ResultState.Error(errorMessage))
-        }
+    suspend fun getProfile(token: String): List<UserProfileResponseItem> {
+        val products = apiService.getProfile(token)
+        return products ?: emptyList()
     }
 
 
@@ -96,14 +85,15 @@ class Repository private constructor(
     }
 
     suspend fun getBrands(): List<Brand> {
-        return apiService.getBrands()
+        val brand = apiService.getBrands()
+        return brand ?: emptyList()
     }
 
-    suspend fun getProductDetail(productId: String): Product {
+    suspend fun getProductDetail(productId: String): ProductsItem {
         val response = apiService.getProductDetail(productId)
         if (response.isSuccessful) {
             val products = response.body() ?: throw IOException("Product not found")
-            return products.firstOrNull() ?: throw IOException("Product not found")
+            return products
         } else {
             throw IOException("Error fetching product detail")
         }

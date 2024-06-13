@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.repo.Repository
 import com.example.response.CategoryResponseItem
-import com.example.response.Product
 import com.example.utils.ResultState
 import kotlinx.coroutines.launch
 

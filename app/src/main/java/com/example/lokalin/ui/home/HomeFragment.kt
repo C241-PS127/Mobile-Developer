@@ -21,12 +21,15 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentHomeBinding
+import com.example.lokalin.ui.profile.RecommendationAdapter
+import com.example.lokalin.ui.search.BrandAdapter
 import com.example.response.SliderModel
 
 class HomeFragment : Fragment() {
@@ -45,24 +48,30 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-
-        setupSearchView()
         setupView()
-        refreshApp()
-        initBanner()
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            setupView()
+            binding.swipeRefreshLayout.isRefreshing = false
+
+        }
 
         return root
     }
 
     private fun initBanner() {
-        binding.progressbar.visibility = View.VISIBLE
-        viewModel.banners.observe(requireActivity(), Observer { items ->
-            banners(items)
-            binding.progressbar.visibility = View.GONE
-        })
-        viewModel.loadBanners()
+        binding?.let { // gunakan safe call operator ?. untuk memeriksa null
+            it.progressbar.visibility = View.VISIBLE
+            viewModel.banners.observe(viewLifecycleOwner, Observer { items ->
+                it.apply {
+                    banners(items)
+                    progressbar.visibility = View.GONE
+                }
+            })
+            viewModel.loadBanners()
+        }
     }
+
 
     private fun banners(images: List<SliderModel>) {
         binding.viewpagerSlider.adapter = SliderAdapter(images, binding.viewpagerSlider)
@@ -154,7 +163,7 @@ class HomeFragment : Fragment() {
         return matrixCursor
     }
 
-    private fun setupView() {
+    private fun explore(){
         val adapter = ExploreAdapter()
         binding.rvExplore.adapter = adapter
         binding.rvExplore.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -162,6 +171,37 @@ class HomeFragment : Fragment() {
         viewModel.products.observe(viewLifecycleOwner) { stories ->
             adapter.submitList(stories)
         }
+    }
+
+    private fun brand(){
+        val adapter2 = BrandAdapterHome { brandName ->
+            binding.searchview.setQuery(brandName, true)
+        }
+        binding.rvBrands.adapter = adapter2
+        binding.rvBrands.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        viewModel.brands.observe(viewLifecycleOwner) { brands ->
+            adapter2.submitList(brands)
+        }
+    }
+
+    private fun loading(){
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                // Tampilkan indikator loading
+                binding.progressbar2.visibility = View.VISIBLE
+                binding.progressbar3.visibility = View.VISIBLE
+
+            } else {
+                // Sembunyikan indikator loading
+                binding.progressbar2.visibility = View.GONE
+                binding.progressbar3.visibility = View.GONE
+
+            }
+        })
+    }
+
+    private fun setupView() {
 
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (!user.isLogin) {
@@ -198,15 +238,13 @@ class HomeFragment : Fragment() {
             it.findNavController().navigate(R.id.loginFragment)
         }
 
+        setupSearchView()
         initBanner()
-    }
-
-    private fun refreshApp() {
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            setupView()
-            binding.swipeRefreshLayout.isRefreshing = false
-
-        }
+        explore()
+        brand()
+        loading()
+        viewModel.allBrands()
+        viewModel.allProducts()
     }
 
 

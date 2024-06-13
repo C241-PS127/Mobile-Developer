@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.R
@@ -42,13 +43,11 @@ class WishlistFragment : Fragment() {
         _binding = FragmentWishlistBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        viewModel.getSession().observe(viewLifecycleOwner) { user ->
-            if (user.isLogin) {
-                setupAction(user.token)
-                viewModel.allWishlist(user.token)
-            } else {
-                Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
-            }
+        setupView()
+
+        binding.swipeRefresh.setOnRefreshListener {
+            setupView()
+            binding.swipeRefresh.isRefreshing = false
         }
 
         return root
@@ -65,6 +64,30 @@ class WishlistFragment : Fragment() {
                 adapter.submitList(wishlist)
             }
         }
+    }
+
+    private fun loading(){
+        viewModel.loading.observe(viewLifecycleOwner, Observer { Loading ->
+            if (Loading) {
+                // Tampilkan indikator loading
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                // Sembunyikan indikator loading
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+    }
+
+    private fun setupView(){
+        viewModel.getSession().observe(viewLifecycleOwner) { user ->
+            if (user.isLogin) {
+                setupAction(user.token)
+                viewModel.allWishlist(user.token)
+            } else {
+                Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
+            }
+        }
+        loading()
     }
 
 

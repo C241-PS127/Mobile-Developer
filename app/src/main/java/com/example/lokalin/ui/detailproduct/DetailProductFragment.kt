@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentDetailProductBinding
@@ -21,7 +23,7 @@ import com.example.lokalin.ui.cart.CartViewModel
 import com.example.lokalin.ui.categories.CategoriesFragmentDirections
 import com.example.lokalin.ui.wishlist.WishlistFragmentDirections
 import com.example.lokalin.ui.wishlist.WishlistViewModel
-import com.example.response.Product
+import com.example.response.ProductsItem
 import com.example.utils.ResultState
 import java.text.NumberFormat
 import java.util.Locale
@@ -54,13 +56,12 @@ class DetailProductFragment : Fragment() {
         _binding = FragmentDetailProductBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val args: DetailProductFragmentArgs by navArgs()
-        productId = args.ProductId
+        setupView()
 
-        viewModel.fetchProductDetail(productId)
+        binding.swipeRefresh.setOnRefreshListener {
+            setupView()
+            binding.swipeRefresh.isRefreshing = false
 
-        viewModel.productDetail.observe(viewLifecycleOwner) {
-            setDetail(it)
         }
 
         return root
@@ -170,11 +171,6 @@ class DetailProductFragment : Fragment() {
                 viewModel.addCart(token, productId, quantity)
                 cartViewModel.allCart(token)
                 Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
-                val action = DetailProductFragmentDirections.actionDetailProductFragmentToNavigationCart()
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.detailProductFragment, true)
-                    .build()
-                it.findNavController().navigate(action, navOptions)
 
             } else {
                 if (cartId != null) {
@@ -191,15 +187,41 @@ class DetailProductFragment : Fragment() {
         }
     }
 
-    private fun setDetail(product: Product) {
+    private fun setDetail(product: ProductsItem) {
         binding.apply {
             toolbarTitle.text = product.brandName
             tvDetailName.text = product.productName
             tvDetailType.text = product.categoryName
             tvDetailDescription.text = product.productDescription
-            tvDetailPrice.text = formatRupiah(product.unitPrice.toInt())
+            Glide.with(requireActivity()).load(product.imgUrl).into(imgProduct)
+            tvDetailPrice.text = product.unitPrice?.let { formatRupiah(it.toInt()) }
 
         }
+    }
+
+    private fun loading(){
+        viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                // Tampilkan indikator loading
+                binding.progressIndicator.visibility = View.VISIBLE
+            } else {
+                // Sembunyikan indikator loading
+                binding.progressIndicator.visibility = View.GONE
+            }
+        })
+    }
+
+    private fun setupView(){
+        val args: DetailProductFragmentArgs by navArgs()
+        productId = args.ProductId
+
+        viewModel.fetchProductDetail(productId)
+
+        viewModel.productDetail.observe(viewLifecycleOwner) {
+            setDetail(it)
+        }
+
+        loading()
     }
 
     private fun formatRupiah(amount: Int): String {
@@ -207,6 +229,7 @@ class DetailProductFragment : Fragment() {
         val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
         return formatRupiah.format(amount)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

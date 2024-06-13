@@ -1,22 +1,22 @@
-package com.example.lokalin.ui.search
+package com.example.lokalin.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.lokalin.R
-import com.example.lokalin.databinding.OfficialBrandSearchBinding
+import com.example.lokalin.databinding.OfficialBrandBinding
 import com.example.response.Brand
 
-class BrandAdapter(
+class BrandAdapterHome(
     private val searchListener: (String) -> Unit
-) : ListAdapter<Brand, BrandAdapter.MyViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<Brand, BrandAdapterHome.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding =
-            OfficialBrandSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            OfficialBrandBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding, searchListener)
         notifyDataSetChanged()
     }
@@ -27,13 +27,13 @@ class BrandAdapter(
     }
 
     class MyViewHolder(
-        private val binding: OfficialBrandSearchBinding,
-        private val searchListener: (String) -> Unit
+        private val binding: OfficialBrandBinding, private val searchListener: (String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        private val brandTextView: TextView = itemView.findViewById(R.id.tv_brands)
 
         fun bind(user: Brand) {
-            brandTextView.text = user.brandName
+            Glide.with(binding.root).load(user.logoUrl)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.baseline_assignment_24).into(binding.imgProduct)
 
             binding.root.setOnClickListener {
                 searchListener(user.brandName)

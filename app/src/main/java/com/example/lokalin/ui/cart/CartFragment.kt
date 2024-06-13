@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.R
@@ -37,16 +38,12 @@ class CartFragment : Fragment() {
 
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            // Lakukan tindakan untuk memuat ulang data
-            // Misalnya, muat ulang data dari server atau database lokal
-            loadData()
+            setupView()
+            binding.swipeRefreshLayout.isRefreshing = false
+
         }
 
-        binding.historyImg.setOnClickListener() {
-            it.findNavController().navigate(R.id.historyFragment)
-        }
-
-        loadCart()
+        setupView()
 
         return root
     }
@@ -90,6 +87,19 @@ class CartFragment : Fragment() {
         }
     }
 
+    private fun load(){
+        viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                // Tampilkan indikator loading
+                binding.progressBar2.visibility = View.VISIBLE
+            } else {
+                // Sembunyikan indikator loading
+                binding.progressBar2.visibility = View.GONE
+            }
+        })
+
+    }
+
     private fun loadCart(){
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (user.isLogin) {
@@ -112,8 +122,12 @@ class CartFragment : Fragment() {
         _binding = null
     }
 
-    fun loadData() {
+    fun setupView() {
         loadCart()
-        binding.swipeRefreshLayout.isRefreshing = false
+        load()
+
+        binding.historyImg.setOnClickListener() {
+            it.findNavController().navigate(R.id.historyFragment)
+        }
     }
 }

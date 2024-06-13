@@ -19,7 +19,6 @@ import com.example.lokalin.databinding.ItemCategoryBinding
 import com.example.lokalin.databinding.ProductBinding
 import com.example.lokalin.ui.categories.CategoriesFragmentDirections
 import com.example.response.CategoryResponseItem
-import com.example.response.Product
 import java.text.NumberFormat
 import java.util.Locale
 

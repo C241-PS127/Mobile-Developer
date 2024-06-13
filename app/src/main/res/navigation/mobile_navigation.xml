@@ -76,7 +76,11 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.lokalin.ui.profile.ProfileFragment"
         android:label="@string/profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_detailProductFragment"
+            app:destination="@id/detailProductFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recycleFragment"
         android:name="com.example.lokalin.ui.recycle.RecycleFragment"
