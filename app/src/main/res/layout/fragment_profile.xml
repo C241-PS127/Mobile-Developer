@@ -194,7 +194,7 @@
                     android:id="@+id/icn_categories"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
                     android:src="@drawable/baseline_format_list_bulleted_24"
                     app:layout_constraintStart_toEndOf="@id/icn_home"
@@ -215,7 +215,7 @@
                     android:id="@+id/icn_cart"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
                     android:src="@drawable/outline_shopping_cart_24"
                     app:layout_constraintBottom_toTopOf="@id/card_wallet"
@@ -237,7 +237,7 @@
                     android:id="@+id/icn_wishlist"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
                     android:src="@drawable/baseline_favorite_border_24"
                     app:layout_constraintStart_toEndOf="@id/icn_cart"
@@ -258,7 +258,7 @@
                     android:id="@+id/icn_recycle"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
                     android:src="@drawable/baseline_recycling_24"
                     app:layout_constraintStart_toEndOf="@id/icn_wishlist"
@@ -274,6 +274,27 @@
                     app:layout_constraintEnd_toEndOf="@+id/icn_recycle"
                     app:layout_constraintStart_toStartOf="@id/icn_recycle"
                     app:layout_constraintTop_toBottomOf="@id/icn_recycle" />
+
+                <ImageView
+                    android:id="@+id/icn_shop"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/baseline_shopping_bag_24"
+                    app:layout_constraintStart_toEndOf="@id/icn_recycle"
+                    app:layout_constraintTop_toBottomOf="@id/menu" />
+
+                <TextView
+                    android:id="@+id/txt_shop"
+                    style="@style/TextAppearance.Material3.BodySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My Shop"
+                    android:textColor="@color/navy"
+                    app:layout_constraintEnd_toEndOf="@+id/icn_shop"
+                    app:layout_constraintStart_toStartOf="@id/icn_shop"
+                    app:layout_constraintTop_toBottomOf="@id/icn_shop" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_wallet"

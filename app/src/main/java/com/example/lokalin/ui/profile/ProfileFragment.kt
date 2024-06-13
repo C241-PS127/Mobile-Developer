@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentProfileBinding
 import com.example.lokalin.ui.home.ZoomOutPageTransformer
@@ -76,13 +78,25 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun profile(token:String){
+    private fun profile(token:String, brand: Boolean){
         viewModel.getProfile(token)
         viewModel.profile.observe(viewLifecycleOwner, Observer {
-            binding.tvName.text = it[0].fullName
-            binding.phoneInput.text = it[0].phone
-            binding.addressInput.text = it[0].address
-            binding.emailInput.text = it[0].email
+            binding.apply {
+                tvName.text = it[0].fullName
+                phoneInput.text = it[0].phone
+                addressInput.text = it[0].address
+                emailInput.text = it[0].email
+
+                if(!brand){
+                    icnShop.visibility = View.INVISIBLE
+                    txtShop.visibility = View.INVISIBLE
+                } else {
+                    icnShop.visibility = View.VISIBLE
+                    txtShop.visibility = View.VISIBLE
+                }
+            }
+
+
         })
     }
 
@@ -100,15 +114,24 @@ class ProfileFragment : Fragment() {
         })
     }
 
+    private fun menu(){
+        binding.apply {
+            icnShop.setOnClickListener {
+                findNavController().navigate(R.id.shopFragment)
+            }
+        }
+    }
+
     private fun setupView(){
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (user.isLogin) {
-                profile(user.token)
+                profile(user.token, user.brand)
             }
         }
         recommendation()
         initBanner()
         loading()
+        menu()
         viewModel.allProducts()
 
     }

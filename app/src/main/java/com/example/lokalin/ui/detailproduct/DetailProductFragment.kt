@@ -172,16 +172,15 @@ class DetailProductFragment : Fragment() {
                 cartViewModel.allCart(token)
                 Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
 
+                findNavController().navigate(R.id.navigation_cart)
+                findNavController().popBackStack(R.id.detailProductFragment, true)
+
             } else {
                 if (cartId != null) {
                     cartViewModel.updateCart(token, cartId, quantity)
                     Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
-                    val action = DetailProductFragmentDirections.actionDetailProductFragmentToNavigationCart()
-                    val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.detailProductFragment, true)
-                        .build()
-                    it.findNavController().navigate(action, navOptions)
-
+                    findNavController().navigate(R.id.navigation_cart)
+                    findNavController().popBackStack(R.id.detailProductFragment, true)
                 }
             }
         }

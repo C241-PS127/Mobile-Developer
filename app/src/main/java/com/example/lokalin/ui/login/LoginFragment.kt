@@ -83,7 +83,8 @@ class LoginFragment : Fragment() {
 
                 is ResultState.Success -> {
                     val token = resultState.data.token
-                    viewModel.saveSession(UserModel(token, true))
+                    val brand = resultState.data.brand
+                    viewModel.saveSession(UserModel(token, brand, true))
                     val userRepository = Injection.provideRepository(requireContext())
                     userRepository.updateApiService(ApiConfig.getApiService(token))
                     AlertDialog.Builder(requireActivity()).apply {
