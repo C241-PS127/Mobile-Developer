@@ -9,7 +9,7 @@
     <item
         android:id="@+id/navigation_categories"
         android:icon="@drawable/baseline_format_list_bulleted_24"
-        android:title="@string/categories" />
+        android:title="@string/cateogry" />
 
     <item
         android:id="@+id/navigation_cart"

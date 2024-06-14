@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Erigo"
+                tools:text="Erigo"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:textColor="@color/navy" />
 
@@ -109,7 +109,8 @@
                         android:padding="12dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/baseline_favorite_24"
-                        app:iconTint="@android:color/black" />
+                        app:iconTint="@android:color/black"
+                        android:focusable="true" />
 
                 </FrameLayout>
 
@@ -140,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/backgorund_grey_round"
+                    android:background="@drawable/navy_round"
                     app:layout_constraintBottom_toBottomOf="@id/tv_detail_type"
                     app:layout_constraintStart_toEndOf="@id/tv_detail_type"
                     app:layout_constraintTop_toTopOf="@id/tv_detail_type">
@@ -205,7 +206,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_detail_price"
-                    android:text="Deskripsi" />
+                    android:text="@string/description" />
 
                 <TextView
                     android:id="@+id/tv_detail_description"
@@ -249,7 +250,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="2dp"
             android:clickable="true"
-            android:text="Add to Cart"
+            android:text="@string/cart"
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -259,8 +260,9 @@
             android:layout_gravity="right"
             android:backgroundTint="@color/red"
             android:clickable="true"
-            android:text="+"
-            android:textColor="@color/white" />
+            android:text="@string/plus"
+            android:textColor="@color/white"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/tv_quantity"
@@ -270,7 +272,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
 
-            android:text="1"
+            android:text="@string/one"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -284,7 +286,7 @@
             android:layout_marginStart="16dp"
             android:backgroundTint="@color/ligh_grey"
             android:clickable="true"
-            android:text="-"
+            android:text="@string/minus"
             android:textColor="@color/black" />
 
 

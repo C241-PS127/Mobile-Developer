@@ -10,9 +10,9 @@
         android:id="@+id/card_brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="6dp"
-        android:background="@drawable/backgorund_grey_round"
+        android:background="@drawable/navy_round"
         android:backgroundTint="@color/navy"
+        android:padding="6dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,11 +22,11 @@
             android:id="@+id/tv_brands"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Brand"
-            android:textStyle="bold"
+            android:padding="6dp"
+            tools:text="@string/brand"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:padding="6dp" />
+            android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

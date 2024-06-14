@@ -34,8 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_toEndOf="@id/back_button"
-                android:text="Sign Up"
-                android:textColor="#102C57"
+                android:text="@string/sign_up"
+                android:textColor="@color/navy"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -51,10 +51,10 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_bar" />
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        tools:visibility="visible" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mtrl_card_view"
@@ -81,8 +81,8 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:text="Cari Yang Lokal Lokal.Ind Aja"
-                android:textColor="#102C57"
+                android:text="@string/tagline_login"
+                android:textColor="@color/navy"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
-                android:text="Isi Data Diri"
+                android:text="@string/login_signup_warning"
                 android:textColor="@color/red"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,8 +108,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:text="Name"
-                android:textColor="#102C57"
+                android:text="@string/name"
+                android:textColor="@color/navy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_reminder" />
 
@@ -131,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="Masukkan Nama"
+                    android:hint="@string/name_fill"
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -141,8 +141,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:text="Address"
-                android:textColor="#102C57"
+                android:text="@string/address"
+                android:textColor="@color/navy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout" />
 
@@ -164,7 +164,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="Masukkan Alamat"
+                    android:hint="@string/address_fill"
                     android:inputType="textPostalAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,8 +174,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:text="Phone Number"
-                android:textColor="#102C57"
+                android:text="@string/phone"
+                android:textColor="@color/navy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/addressEditTextView" />
 
@@ -197,7 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="Masukkan Nomor "
+                    android:hint="@string/phone_fill"
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -207,8 +207,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:text="Email"
-                android:textColor="#102C57"
+                android:text="@string/email"
+                android:textColor="@color/navy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/phoneEditTextLayout" />
 
@@ -220,7 +220,6 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 app:hintEnabled="false"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailTextView"
@@ -239,8 +238,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:text="Password"
-                android:textColor="#102C57"
+                android:text="@string/password"
+                android:textColor="@color/navy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout" />
 
@@ -275,7 +274,7 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/round_button_enabled"
-                android:text="Sign Up"
+                android:text="@string/sign_up"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
