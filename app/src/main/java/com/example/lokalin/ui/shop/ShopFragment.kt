@@ -32,6 +32,9 @@ class ShopFragment : Fragment() {
             layAddproduct.setOnClickListener {
                 findNavController().navigate(R.id.addProductFragment)
             }
+            layMyproduct.setOnClickListener {
+                findNavController().navigate(R.id.myProductFragment)
+            }
         }
 
     }

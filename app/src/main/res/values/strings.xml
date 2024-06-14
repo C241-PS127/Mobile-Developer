@@ -104,5 +104,9 @@
     <string name="pembayaran">Pembayaran</string>
     <string name="image">Foto</string>
     <string name="choose_categories">Pilih Kategori</string>
+    <string name="size">Size</string>
+    <string name="size_hint">Enter size</string>
+    <string name="rating">Rating</string>
+    <string name="rating_hint">Enter rating</string>
 
 </resources>

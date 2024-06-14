@@ -1,8 +1,13 @@
 package com.example.repo
 
 import androidx.datastore.core.IOException
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.PagingSource
+import androidx.paging.cachedIn
 import com.example.api.ApiService
 import com.example.pagin.ProductPagingSource
 import com.example.response.AddCartResponse
@@ -11,6 +16,7 @@ import com.example.response.Brand
 import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
+import com.example.response.ProductResponse
 import com.example.response.ProductsItem
 import com.example.response.RegisterResponse
 import com.example.response.UserProfileResponseItem
@@ -19,14 +25,21 @@ import com.example.storyapp.data.pref.UserModel
 import com.example.storyapp.data.pref.UserPreference
 import com.example.utils.ResultState
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
+import java.io.File
 
 class Repository private constructor(
     private var apiService: ApiService,
     private val userPreference: UserPreference,
 
-) {
+    ) {
 //    suspend fun getProducts(): List<ProductsItem> {
 //        val products = apiService.getAllProducts()
 //        return products ?: emptyList()
@@ -34,6 +47,10 @@ class Repository private constructor(
 
     fun getProductsPagingSource(): PagingSource<Int, ProductsItem> {
         return ProductPagingSource(apiService)
+    }
+
+    suspend fun getProductsByBrand(brandName: String): List<ProductsItem> {
+        return apiService.getProductsByBrand(brandName)
     }
 
     fun updateApiService(apiService: ApiService) {
@@ -158,6 +175,50 @@ class Repository private constructor(
 
     suspend fun deleteCart(token: String, cartId: String): AddCartResponse {
         return apiService.deleteCart(token, cartId)
+    }
+
+    suspend fun addProduct(
+        productName: String,
+        productDescription: String,
+        brandId: String,
+        categoryId: String,
+        unitPrice: Int,
+        unitSize: String,
+        unitInStock: Int,
+        isAvailable: Boolean,
+        rating: String,
+        imageFile: File
+    ): ProductsItem {
+        val productNameBody = productName.toRequestBody("text/plain".toMediaTypeOrNull())
+        val productDescriptionBody =
+            productDescription.toRequestBody("text/plain".toMediaTypeOrNull())
+        val brandIdBody = brandId.toRequestBody("text/plain".toMediaTypeOrNull())
+        val categoryIdBody = categoryId.toRequestBody("text/plain".toMediaTypeOrNull())
+        val unitPriceBody = unitPrice.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val unitSizeBody = unitSize.toRequestBody("text/plain".toMediaTypeOrNull())
+        val unitInStockBody = unitInStock.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val isAvailableBody = isAvailable.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val ratingBody = rating.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+        val multipartBody = MultipartBody.Part.createFormData(
+            "photo",
+            imageFile.name,
+            requestImageFile
+        )
+
+        return apiService.addProducts(
+            productNameBody,
+            productDescriptionBody,
+            brandIdBody,
+            categoryIdBody,
+            unitPriceBody,
+            unitSizeBody,
+            unitInStockBody,
+            isAvailableBody,
+            ratingBody,
+            multipartBody
+        )
     }
 
 

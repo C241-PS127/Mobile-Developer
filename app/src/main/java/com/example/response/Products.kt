@@ -31,4 +31,3 @@ data class ProductResponse(
 	@SerializedName("pagination") val pagination: Pagination
 )
 
-
