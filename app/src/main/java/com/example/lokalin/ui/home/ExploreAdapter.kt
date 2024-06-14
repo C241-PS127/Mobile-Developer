@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,7 @@ import com.example.response.ProductsItem
 import java.text.NumberFormat
 import java.util.Locale
 
-class ExploreAdapter : ListAdapter<ProductsItem, ExploreAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class ExploreAdapter :  PagingDataAdapter<ProductsItem, ExploreAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,7 +30,9 @@ class ExploreAdapter : ListAdapter<ProductsItem, ExploreAdapter.MyViewHolder>(DI
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val user = getItem(position)
-        holder.bind(user)
+        if (user != null) {
+            holder.bind(user)
+        }
     }
 
     class MyViewHolder(private val binding: ProductBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -48,14 +51,12 @@ class ExploreAdapter : ListAdapter<ProductsItem, ExploreAdapter.MyViewHolder>(DI
                 .into(productImageView)
 
             binding.root.setOnClickListener(){
-                val action = user.productId?.let { it1 ->
+                val action = user.productId.let { it1 ->
                     HomeFragmentDirections.actionNavigationHomeToDetailProductFragment(
                         it1
                     )
                 }
-                if (action != null) {
-                    it.findNavController().navigate(action)
-                }
+                it.findNavController().navigate(action)
             }
         }
 

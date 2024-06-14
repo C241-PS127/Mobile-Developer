@@ -311,6 +311,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
+                        android:background="@drawable/gradient_bg"
                         android:layout_height="wrap_content"
                         android:padding="16dp">
 
@@ -360,7 +361,7 @@
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewpagerSlider"
                         android:layout_width="match_parent"
-                        android:layout_height="170dp"
+                        android:layout_height="160dp"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         app:layout_constraintEnd_toEndOf="parent"

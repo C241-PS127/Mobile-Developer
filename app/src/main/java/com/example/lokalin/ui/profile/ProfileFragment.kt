@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,8 @@ import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentProfileBinding
 import com.example.lokalin.ui.home.ZoomOutPageTransformer
 import com.example.response.SliderModel2
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
@@ -73,8 +76,10 @@ class ProfileFragment : Fragment() {
         binding.rvExplore.adapter = adapter
         binding.rvExplore.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        viewModel.products.observe(viewLifecycleOwner) { stories ->
-            adapter.submitList(stories)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.productss?.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
         }
     }
 
@@ -132,7 +137,7 @@ class ProfileFragment : Fragment() {
         initBanner()
         loading()
         menu()
-        viewModel.allProducts()
+//        viewModel.allProducts()
 
     }
 

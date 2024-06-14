@@ -9,6 +9,9 @@ data class AddCartResponse(
 
 data class CartResponseItem(
 
+	@field:SerializedName("ImgUrl")
+	val imgUrl: String? = null,
+
 	@field:SerializedName("BrandName")
 	val brandName: String? = null,
 
@@ -46,6 +49,9 @@ data class UpdateCartResponse(
 
 	@field:SerializedName("CartId")
 	val cartId: String? = null,
+
+	@field:SerializedName("ImgUrl")
+	val imgUrl: String? = null,
 
 	@field:SerializedName("ProductId")
 	val productId: String? = null,

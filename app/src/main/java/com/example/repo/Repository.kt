@@ -2,7 +2,9 @@ package com.example.repo
 
 import androidx.datastore.core.IOException
 import androidx.lifecycle.liveData
+import androidx.paging.PagingSource
 import com.example.api.ApiService
+import com.example.pagin.ProductPagingSource
 import com.example.response.AddCartResponse
 import com.example.response.AddWishlistResponse
 import com.example.response.Brand
@@ -21,11 +23,17 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
 class Repository private constructor(
-    private var apiService: ApiService, private val userPreference: UserPreference
+    private var apiService: ApiService,
+    private val userPreference: UserPreference,
+
 ) {
-    suspend fun getProducts(): List<ProductsItem> {
-        val products = apiService.getAllProducts()
-        return products ?: emptyList()
+//    suspend fun getProducts(): List<ProductsItem> {
+//        val products = apiService.getAllProducts()
+//        return products ?: emptyList()
+//    }
+
+    fun getProductsPagingSource(): PagingSource<Int, ProductsItem> {
+        return ProductPagingSource(apiService)
     }
 
     fun updateApiService(apiService: ApiService) {
@@ -156,9 +164,10 @@ class Repository private constructor(
     companion object {
         @Volatile
         private var instance: Repository? = null
-        fun getInstance(apiService: ApiService, userPreference: UserPreference) =
-            instance ?: synchronized(this) {
-                instance ?: Repository(apiService, userPreference)
-            }.also { instance = it }
+        fun getInstance(
+            apiService: ApiService, userPreference: UserPreference
+        ) = instance ?: synchronized(this) {
+            instance ?: Repository(apiService, userPreference)
+        }.also { instance = it }
     }
 }

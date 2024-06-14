@@ -7,6 +7,9 @@ data class WishlistResponseItem(
 	@field:SerializedName("BrandName")
 	val brandName: String? = null,
 
+	@field:SerializedName("ImgUrl")
+	val imgUrl: String? = null,
+
 	@field:SerializedName("UnitPrice")
 	val unitPrice: Int? = null,
 

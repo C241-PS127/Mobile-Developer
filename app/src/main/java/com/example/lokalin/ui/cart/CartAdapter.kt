@@ -8,6 +8,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.lokalin.R
 import com.example.lokalin.databinding.ProductCartBinding
 import com.example.lokalin.ui.cart.CartViewModel
 import com.example.response.CartResponseItem
@@ -48,6 +50,8 @@ class CartAdapter(private val viewModel: CartViewModel, private val token: Strin
                 tvPrice.text = total?.let { formatRupiah(it) }
                 tvBrand.text = data.brandName
                 txtCountItem.text = data.count.toString()
+                Glide.with(binding.root).load(data.imgUrl)
+                    .error(R.drawable.round_button_enabled).into(binding.imgProduct)
             }
 
             binding.btnDel.setOnClickListener {

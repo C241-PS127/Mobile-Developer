@@ -6,11 +6,13 @@ import com.example.response.Brand
 import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
+import com.example.response.ProductResponse
 import com.example.response.ProductsItem
 import com.example.response.RegisterResponse
 import com.example.response.UpdateCartResponse
 import com.example.response.UserProfileResponseItem
 import com.example.response.WishlistResponseItem
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.Field
@@ -20,6 +22,7 @@ import retrofit2.http.Header
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @FormUrlEncoded
@@ -43,7 +46,10 @@ interface ApiService {
     suspend fun getProfile(@Header("Authorization") token: String): List<UserProfileResponseItem>
 
     @GET("products")
-    suspend fun getAllProducts(): List<ProductsItem>
+    suspend fun getAllProducts(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): ProductResponse
 
     @GET("brands")
     suspend fun getBrands(): List<Brand>

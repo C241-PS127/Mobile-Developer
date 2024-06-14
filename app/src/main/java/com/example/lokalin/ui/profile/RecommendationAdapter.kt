@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ import com.example.response.ProductsItem
 import java.text.NumberFormat
 import java.util.Locale
 
-class RecommendationAdapter : ListAdapter<ProductsItem, RecommendationAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class RecommendationAdapter : PagingDataAdapter<ProductsItem, RecommendationAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,7 +27,9 @@ class RecommendationAdapter : ListAdapter<ProductsItem, RecommendationAdapter.My
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val user = getItem(position)
-        holder.bind(user)
+        if (user != null) {
+            holder.bind(user)
+        }
     }
 
     class MyViewHolder(private val binding: ProductBinding) : RecyclerView.ViewHolder(binding.root) {

@@ -1,10 +1,15 @@
 package com.example.lokalin.ui.profile
 
+import android.content.ContentValues
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.example.repo.Repository
 import com.example.response.ProductsItem
 import com.example.response.SliderModel
@@ -54,19 +59,22 @@ class ProfileViewModel(private val repository: Repository) : ViewModel() {
     }
 
 
-    fun allProducts() {
-        _isLoading.postValue(true) // Set loading to true
-        viewModelScope.launch {
-            try {
-                val stories = repository.getProducts()
-                _products.postValue(stories)
-                _isLoading.postValue(false) // Set loading to true
-
-            } catch (_: Exception) {
-                _isLoading.postValue(true) // Set loading to true
-
-            }
-        }
+    val productss = try {
+        _isLoading.postValue(true) // Set loading to true before initializing Pager
+        val pager = Pager(
+            config = PagingConfig(
+                pageSize = 4,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { repository.getProductsPagingSource() }
+        )
+        _isLoading.postValue(false) // Set loading to false after initializing Pager
+        pager.flow.cachedIn(viewModelScope)
+    } catch (e: Exception) {
+        // Handle the exception, if needed
+        _isLoading.postValue(true) // Set loading to true when an exception occurs
+        Log.e(ContentValues.TAG, "Error creating Pager", e)
+        null // Or another appropriate action
     }
 
     fun loadBanners() {

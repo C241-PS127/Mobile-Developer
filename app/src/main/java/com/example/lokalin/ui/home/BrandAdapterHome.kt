@@ -32,8 +32,7 @@ class BrandAdapterHome(
 
         fun bind(user: Brand) {
             Glide.with(binding.root).load(user.logoUrl)
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.baseline_assignment_24).into(binding.imgProduct)
+                .error(R.drawable.round_button_enabled).into(binding.imgProduct)
 
             binding.root.setOnClickListener {
                 searchListener(user.brandName)

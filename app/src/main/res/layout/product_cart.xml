@@ -30,7 +30,6 @@
         android:layout_height="90dp"
         android:layout_marginStart="12dp"
         android:scaleType="fitXY"
-        android:src="@drawable/erigo"
         app:layout_constraintStart_toEndOf="@id/btn_del"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />

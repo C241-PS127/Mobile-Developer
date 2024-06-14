@@ -18,8 +18,10 @@ import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +33,8 @@ import com.example.lokalin.databinding.FragmentHomeBinding
 import com.example.lokalin.ui.profile.RecommendationAdapter
 import com.example.lokalin.ui.search.BrandAdapter
 import com.example.response.SliderModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -49,6 +53,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         setupView()
+
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             setupView()
@@ -70,6 +75,16 @@ class HomeFragment : Fragment() {
             })
             viewModel.loadBanners()
         }
+        binding?.let { // gunakan safe call operator ?. untuk memeriksa null
+            it.progressbar4.visibility = View.VISIBLE
+            viewModel.banner2.observe(viewLifecycleOwner, Observer { items ->
+                it.apply {
+                    bannerss(items)
+                    progressbar3.visibility = View.GONE
+                }
+            })
+            viewModel.loadBannerss()
+        }
     }
 
 
@@ -85,6 +100,21 @@ class HomeFragment : Fragment() {
         if (images.size > 1) {
             binding.indicatorDots.visibility = View.VISIBLE
             binding.indicatorDots.attachTo(binding.viewpagerSlider)
+        }
+    }
+
+    private fun bannerss(images: List<SliderModel>) {
+        binding.viewpagerSlider2.adapter = SliderAdapter(images, binding.viewpagerSlider2)
+        binding.viewpagerSlider2.clipToPadding = false
+        binding.viewpagerSlider2.clipChildren = true
+        binding.viewpagerSlider2.offscreenPageLimit = 2
+        binding.viewpagerSlider2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+
+        binding.viewpagerSlider2.setPageTransformer(ZoomOutPageTransformer())
+
+        if (images.size > 1) {
+            binding.indicatorDots2.visibility = View.VISIBLE
+            binding.indicatorDots2.attachTo(binding.viewpagerSlider2)
         }
     }
 
@@ -166,10 +196,24 @@ class HomeFragment : Fragment() {
     private fun explore(){
         val adapter = ExploreAdapter()
         binding.rvExplore.adapter = adapter
-        binding.rvExplore.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvExplore.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        viewModel.products.observe(viewLifecycleOwner) { stories ->
-            adapter.submitList(stories)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.productss?.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
+        }
+    }
+
+    private fun explores(){
+        val adapter = ExploreAdapter()
+        binding.rvExplore2.adapter = adapter
+        binding.rvExplore2.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.productsss?.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
         }
     }
 
@@ -185,17 +229,31 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+
     private fun loading(){
         viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
                 // Tampilkan indikator loading
                 binding.progressbar2.visibility = View.VISIBLE
-                binding.progressbar3.visibility = View.VISIBLE
 
             } else {
                 // Sembunyikan indikator loading
                 binding.progressbar2.visibility = View.GONE
+
+            }
+        })
+        viewModel.isLoading2.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                // Tampilkan indikator loading
+                binding.progressbar3.visibility = View.VISIBLE
+                binding.progressbar5.visibility = View.VISIBLE
+
+
+            } else {
+                // Sembunyikan indikator loading
                 binding.progressbar3.visibility = View.GONE
+                binding.progressbar5.visibility = View.GONE
 
             }
         })
@@ -241,10 +299,10 @@ class HomeFragment : Fragment() {
         setupSearchView()
         initBanner()
         explore()
+        explores()
         brand()
         loading()
         viewModel.allBrands()
-        viewModel.allProducts()
     }
 
 

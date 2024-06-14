@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.lokalin.R
 import com.example.lokalin.databinding.WishlistItemBinding
 import com.example.lokalin.ui.wishlist.WishlistFragmentDirections
@@ -47,6 +48,8 @@ class WishlistAdapter(
             nameTextView.text = data.productName
             brandTextView.text = data.brandName
             priceTextView.text = formatRupiah(data.unitPrice!!)
+            Glide.with(binding.root).load(data.imgUrl)
+                .error(R.drawable.round_button_enabled).into(binding.imgProduct)
 
             binding.root.setOnClickListener() {
                 val action =
