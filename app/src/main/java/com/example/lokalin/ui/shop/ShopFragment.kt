@@ -5,14 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.lokalin.R
+import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentProfileBinding
 import com.example.lokalin.databinding.FragmentShopBinding
+import com.example.lokalin.ui.profile.ProfileViewModel
+import com.example.lokalin.ui.search.SearchViewModel
 
 class ShopFragment : Fragment() {
     private var _binding: FragmentShopBinding? = null
     private val binding get() = _binding!!
+
+    private val profileViewModel by viewModels<ProfileViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,12 +31,13 @@ class ShopFragment : Fragment() {
         val root: View = binding.root
 
         setupView()
+        setupAction()
 
         return root
     }
 
 
-    private fun setupView(){
+    private fun setupAction(){
         binding.apply {
             layAddproduct.setOnClickListener {
                 findNavController().navigate(R.id.addProductFragment)
@@ -37,6 +47,24 @@ class ShopFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun setupView(){
+        profileViewModel.getSession().observe(viewLifecycleOwner) { user ->
+            if (user.isLogin) {
+                profile(user.token)
+            }
+        }
+    }
+
+
+    private fun profile(token:String){
+        profileViewModel.getProfile(token)
+        profileViewModel.profile.observe(viewLifecycleOwner, Observer {
+            binding.apply {
+                tvName.text = it[0].fullName
+            }
+        })
     }
 
 }

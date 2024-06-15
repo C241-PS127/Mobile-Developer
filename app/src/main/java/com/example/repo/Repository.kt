@@ -184,7 +184,7 @@ class Repository private constructor(
     }
 
 
-    suspend fun addProduct(
+    fun addProduct(
         productName: String,
         productDescription: String,
         brandId: String,
@@ -195,39 +195,47 @@ class Repository private constructor(
         isAvailable: Boolean,
         rating: String,
         imageFile: File
-    ): ProductsItem {
-        val productNameBody = productName.toRequestBody("text/plain".toMediaTypeOrNull())
-        val productDescriptionBody =
-            productDescription.toRequestBody("text/plain".toMediaTypeOrNull())
-        val brandIdBody = brandId.toRequestBody("text/plain".toMediaTypeOrNull())
-        val categoryIdBody = categoryId.toRequestBody("text/plain".toMediaTypeOrNull())
-        val unitPriceBody = unitPrice.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val unitSizeBody = unitSize.toRequestBody("text/plain".toMediaTypeOrNull())
-        val unitInStockBody = unitInStock.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val isAvailableBody = isAvailable.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val ratingBody = rating.toRequestBody("text/plain".toMediaTypeOrNull())
+    ) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val productNameBody = productName.toRequestBody("text/plain".toMediaTypeOrNull())
+            val productDescriptionBody = productDescription.toRequestBody("text/plain".toMediaTypeOrNull())
+            val brandIdBody = brandId.toRequestBody("text/plain".toMediaTypeOrNull())
+            val categoryIdBody = categoryId.toRequestBody("text/plain".toMediaTypeOrNull())
+            val unitPriceBody = unitPrice.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val unitSizeBody = unitSize.toRequestBody("text/plain".toMediaTypeOrNull())
+            val unitInStockBody = unitInStock.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val isAvailableBody = isAvailable.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val ratingBody = rating.toRequestBody("text/plain".toMediaTypeOrNull())
 
-        val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-        val multipartBody = MultipartBody.Part.createFormData(
-            "photo",
-            imageFile.name,
-            requestImageFile
-        )
+            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+            val multipartBody = MultipartBody.Part.createFormData(
+                "picture",
+                imageFile.name,
+                requestImageFile
+            )
 
-        return apiService.addProducts(
-            productNameBody,
-            productDescriptionBody,
-            brandIdBody,
-            categoryIdBody,
-            unitPriceBody,
-            unitSizeBody,
-            unitInStockBody,
-            isAvailableBody,
-            ratingBody,
-            multipartBody
-        )
+            val successResponse = apiService.addProducts(
+                productNameBody,
+                productDescriptionBody,
+                brandIdBody,
+                categoryIdBody,
+                unitPriceBody,
+                unitSizeBody,
+                unitInStockBody,
+                isAvailableBody,
+                ratingBody,
+                multipartBody
+            )
 
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            emit(ResultState.Error("An error occurred"))
+        } catch (e: Exception) {
+            emit(ResultState.Error(e.message ?: "An error occurred"))
+        }
     }
+
 
 
 

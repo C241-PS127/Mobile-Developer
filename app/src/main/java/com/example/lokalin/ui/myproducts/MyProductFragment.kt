@@ -53,6 +53,8 @@ class MyProductsFragment : Fragment() {
                 profile(user.token)
             }
         }
+
+        loading()
     }
 
 
@@ -64,9 +66,8 @@ class MyProductsFragment : Fragment() {
 
         myProductsViewModel.products.observe(viewLifecycleOwner) { product ->
             if (product?.isNotEmpty() == true) {
-                adapter.submitList(product)
+                adapter.submitList(product.reversed())
             }
-            Log.d("TAG", "ISI DARI MY PRODUCT ${product}")
         }
     }
 
@@ -76,7 +77,20 @@ class MyProductsFragment : Fragment() {
             brandName = it[0].fullName.toString()
             myProductsViewModel.getProductsByBrand(brandName)
             setupAction()
-            Log.d("TAG", "ISI DARI BRAND NAME ${brandName}")
+        })
+    }
+
+    private fun loading(){
+        myProductsViewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                // Tampilkan indikator loading
+                binding.progressBar.visibility = View.VISIBLE
+
+            } else {
+                // Sembunyikan indikator loading
+                binding.progressBar.visibility = View.GONE
+
+            }
         })
     }
 
