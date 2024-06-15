@@ -46,7 +46,10 @@ class CategoriesFragment : Fragment() {
 
     private fun setupAction() {
 
-        val adapter = CategoryAdapter()
+        val adapter = CategoryAdapter { categoryName ->
+            val action = CategoriesFragmentDirections.actionNavigationCategoriesToSearchFragment(categoryName)
+            view?.findNavController()?.navigate(action)
+        }
         binding.recyclerView.adapter = adapter
 
         viewModel.categories.observe(viewLifecycleOwner) { stories ->

@@ -2,21 +2,24 @@ package com.example.lokalin.ui.myproducts
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.lokalin.R
 import com.example.lokalin.databinding.WishlistItemBinding
+import com.example.lokalin.ui.wishlist.WishlistViewModel
 import com.example.response.ProductsItem
 import java.text.NumberFormat
 import java.util.Locale
 
-class MyProductAdapter : ListAdapter<ProductsItem, MyProductAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class MyProductAdapter(private val viewModel: MyProductViewModel) : ListAdapter<ProductsItem, MyProductAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = WishlistItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
+        return MyViewHolder(binding, viewModel)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -26,7 +29,7 @@ class MyProductAdapter : ListAdapter<ProductsItem, MyProductAdapter.MyViewHolder
         }
     }
 
-    class MyViewHolder(private val binding: WishlistItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: WishlistItemBinding, private val viewModel: MyProductViewModel) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: ProductsItem) {
 
             binding.apply {
@@ -37,6 +40,24 @@ class MyProductAdapter : ListAdapter<ProductsItem, MyProductAdapter.MyViewHolder
                     .load(user.imgUrl)
                     .error(R.drawable.erigo)
                     .into(imgProduct)
+            }
+
+            binding.btnDel.setOnClickListener() {
+
+                AlertDialog.Builder(itemView.context).apply {
+                    setTitle("Delete")
+                    setMessage("Apakah anda ingin delete")
+                    setPositiveButton("Iya") { _, _ ->
+                        viewModel.deleteProduct(user.productId.toString())
+                        viewModel.getProductsByBrand(user.brandName)
+                        Toast.makeText(itemView.context, "Berhasil delete", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    setNegativeButton("Tidak") { _, _ ->
+                        // Tidak melakukan apa-apa jika tombol "Tidak" diklik
+                    }
+                    create().show()
+                }
             }
 
         }

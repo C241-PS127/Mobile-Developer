@@ -38,4 +38,14 @@ class MyProductViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
+    fun deleteProduct(productId: String) {
+        viewModelScope.launch {
+            try {
+                repository.deleteProduct(productId)
+            } catch (_: Exception) {
+
+            }
+        }
+    }
+
 }

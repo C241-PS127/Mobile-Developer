@@ -134,4 +134,7 @@ interface ApiService {
     @GET("recommendation")
     suspend fun getRecommendations(@Query("query") query: String): ProductRecommendation
 
+    @DELETE("products/{productId}")
+    suspend fun deleteProduct(@Path("productId") productId: String)
+
 }

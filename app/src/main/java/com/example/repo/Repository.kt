@@ -236,8 +236,9 @@ class Repository private constructor(
         }
     }
 
-
-
+    suspend fun deleteProduct(productId: String) {
+        apiService.deleteProduct(productId)
+    }
 
     companion object {
         @Volatile

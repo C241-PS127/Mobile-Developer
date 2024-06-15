@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.navigation.findNavController
@@ -22,13 +23,13 @@ import com.example.response.CategoryResponseItem
 import java.text.NumberFormat
 import java.util.Locale
 
-class CategoryAdapter :
+class CategoryAdapter( private val searchListener: (String) -> Unit) :
     ListAdapter<CategoryResponseItem, CategoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding =
             ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
+        return MyViewHolder(binding, searchListener)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -36,18 +37,38 @@ class CategoryAdapter :
         holder.bind(data)
     }
 
-    class MyViewHolder(private val binding: ItemCategoryBinding) :
+    class MyViewHolder(private val binding: ItemCategoryBinding, private val searchListener: (String) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         private val categoryTextView: TextView = itemView.findViewById(R.id.categoryName)
         fun bind(data: CategoryResponseItem) {
             categoryTextView.text = data.categoryName
 
+            when (data.categoryName) {
+                "Polo Shirt" -> {
+                    Glide.with(binding.root).load(R.drawable.poloshirt).into(binding.categoryImage)
+                }
+                "Hoodie" -> {
+                    Glide.with(binding.root).load(R.drawable.hoodie).into(binding.categoryImage)
+                }
+                "T-Shirt" -> {
+                    Glide.with(binding.root).load(R.drawable.tshirt).into(binding.categoryImage)
+                }
+                "Bag" -> {
+                    Glide.with(binding.root).load(R.drawable.bag).into(binding.categoryImage)
+                }
+                "Shirt" -> {
+                    Glide.with(binding.root).load(R.drawable.shirt).into(binding.categoryImage)
+                }
+                "Pant" -> {
+                    Glide.with(binding.root).load(R.drawable.pants).into(binding.categoryImage)
+                }
+                else -> {
+                    Glide.with(binding.root).load(R.drawable.ic_launcher_foreground).into(binding.categoryImage)
+                }
+            }
+
             binding.root.setOnClickListener() {
-                val action =
-                    CategoriesFragmentDirections.actionNavigationCategoriesToNavigationProductbycategory(
-                        data.categoryId!!
-                    )
-                it.findNavController().navigate(action)
+                searchListener(data.categoryName.toString())
             }
         }
 

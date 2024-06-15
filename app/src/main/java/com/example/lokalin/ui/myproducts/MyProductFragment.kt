@@ -59,7 +59,7 @@ class MyProductsFragment : Fragment() {
 
 
     private fun setupAction() {
-        val adapter = MyProductAdapter()
+        val adapter = MyProductAdapter(myProductsViewModel)
         binding.recMyproducts.adapter = adapter
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recMyproducts.layoutManager = layoutManager
