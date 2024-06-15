@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentProfileBinding
+import com.example.lokalin.ui.home.SliderAdapter
 import com.example.lokalin.ui.home.ZoomOutPageTransformer
-import com.example.response.SliderModel2
+import com.example.response.SliderModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -56,8 +57,8 @@ class ProfileFragment : Fragment() {
         viewModel.loadBanners()
     }
 
-    private fun banners(images: List<SliderModel2>) {
-        binding.viewpagerSlider.adapter = SliderAdapter2(images, binding.viewpagerSlider)
+    private fun banners(images: List<SliderModel>) {
+        binding.viewpagerSlider.adapter = SliderAdapter(images, binding.viewpagerSlider)
         binding.viewpagerSlider.clipToPadding = false
         binding.viewpagerSlider.clipChildren = true
         binding.viewpagerSlider.offscreenPageLimit = 2

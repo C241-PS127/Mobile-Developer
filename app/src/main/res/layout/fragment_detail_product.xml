@@ -142,6 +142,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/navy_round"
+                    android:backgroundTint="@color/ligh_grey"
                     app:layout_constraintBottom_toBottomOf="@id/tv_detail_type"
                     app:layout_constraintStart_toEndOf="@id/tv_detail_type"
                     app:layout_constraintTop_toTopOf="@id/tv_detail_type">

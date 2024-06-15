@@ -6,6 +6,7 @@ import com.example.response.Brand
 import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
+import com.example.response.ProductRecommendation
 import com.example.response.ProductResponse
 import com.example.response.ProductsItem
 import com.example.response.RegisterResponse
@@ -129,4 +130,8 @@ interface ApiService {
         @Part("rating") rating: RequestBody,
         @Part file: MultipartBody.Part
     ): ProductsItem
+
+    @GET("recommendation")
+    suspend fun getRecommendations(@Query("query") query: String): ProductRecommendation
+
 }

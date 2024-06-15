@@ -8,6 +8,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.cachedIn
+import com.example.api.ApiConfig
 import com.example.api.ApiService
 import com.example.pagin.ProductPagingSource
 import com.example.response.AddCartResponse
@@ -16,6 +17,8 @@ import com.example.response.Brand
 import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
+import com.example.response.ProductItem
+import com.example.response.ProductRecommendation
 import com.example.response.ProductResponse
 import com.example.response.ProductsItem
 import com.example.response.RegisterResponse
@@ -32,7 +35,10 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.File
 
 class Repository private constructor(
@@ -40,10 +46,6 @@ class Repository private constructor(
     private val userPreference: UserPreference,
 
     ) {
-//    suspend fun getProducts(): List<ProductsItem> {
-//        val products = apiService.getAllProducts()
-//        return products ?: emptyList()
-//    }
 
     fun getProductsPagingSource(): PagingSource<Int, ProductsItem> {
         return ProductPagingSource(apiService)
@@ -177,6 +179,11 @@ class Repository private constructor(
         return apiService.deleteCart(token, cartId)
     }
 
+    suspend fun getProductRecommendation(query: String): List<ProductItem> {
+        return apiService.getRecommendations(query).product
+    }
+
+
     suspend fun addProduct(
         productName: String,
         productDescription: String,
@@ -219,7 +226,9 @@ class Repository private constructor(
             ratingBody,
             multipartBody
         )
+
     }
+
 
 
     companion object {

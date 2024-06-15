@@ -1,6 +1,7 @@
 package com.example.lokalin.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +10,20 @@ import android.widget.RadioButton
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentSearchBinding
+import com.example.lokalin.ui.home.ExploreAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
@@ -38,27 +45,12 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.imgBack.setOnClickListener {
-            findNavController().navigateUp()
+        setupView()
+
+        binding.swipeRefreshLayout.setOnRefreshListener(){
+            setupView()
+            binding.swipeRefreshLayout.isRefreshing = false
         }
-
-        setFilterData()
-        setupSearchView()
-
-        val adapter = BrandAdapter { brandName ->
-            binding.searchview.setQuery(brandName, true)
-        }
-
-        binding.rvBrands.adapter = adapter
-        binding.rvBrands.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        viewModel.brands.observe(viewLifecycleOwner) { brands ->
-            adapter.submitList(brands)
-        }
-
-        val args: SearchFragmentArgs by navArgs()
-        val query = args.query
-        binding.searchview.setQuery(query, false)
 
         return root
     }
@@ -67,7 +59,8 @@ class SearchFragment : Fragment() {
         binding.searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener  {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
-                    performSearch(it)
+                    viewModel.getProductRecommendation(it)
+
                 }
                 return true
             }
@@ -113,8 +106,60 @@ class SearchFragment : Fragment() {
         }
     }
 
+    private fun rvBrand(){
+        val adapter = BrandAdapter { brandName ->
+            binding.searchview.setQuery(brandName, true)
+        }
+
+        binding.rvBrands.adapter = adapter
+        binding.rvBrands.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        viewModel.brands.observe(viewLifecycleOwner) { brands ->
+            adapter.submitList(brands)
+        }
+    }
+
+    private fun recommendation(){
+
+        val adapter2 = RecommendationAdapter()
+        binding.rvExplore.adapter = adapter2
+        binding.rvExplore.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        viewModel.productRecommendation.observe(viewLifecycleOwner, Observer { products ->
+            Log.d("SearchFragment", "Products: $products")
+            adapter2.submitList(products)
+        })
+    }
+
+    private fun loading(){
+        viewModel.isLoading.observe(viewLifecycleOwner){
+            if (it == true){
+                binding.proggressbarSearch.visibility = View.VISIBLE
+            }else{
+                binding.proggressbarSearch.visibility = View.GONE
+
+            }
+        }
+    }
+
+    private fun setupView(){
+        setFilterData()
+        setupSearchView()
+        rvBrand()
+        recommendation()
+        loading()
+
+        val args: SearchFragmentArgs by navArgs()
+        val query = args.query
+        binding.searchview.setQuery(query, false)
+        viewModel.getProductRecommendation(query)
+
+        binding.imgBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+    }
+
     private fun performSearch(query: String) {
-        val action = SearchFragmentDirections.actionSearchFragmentSelf(query)
-        view?.findNavController()?.navigate(action)
     }
 }

@@ -13,10 +13,8 @@ import androidx.paging.cachedIn
 import com.example.repo.Repository
 import com.example.response.ProductsItem
 import com.example.response.SliderModel
-import com.example.response.SliderModel2
 import com.example.response.UserProfileResponseItem
 import com.example.storyapp.data.pref.UserModel
-import com.example.utils.ResultState
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,8 +24,8 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(private val repository: Repository) : ViewModel() {
     private val firebaseDatabase = FirebaseDatabase.getInstance()
 
-    private val _banner = MutableLiveData<List<SliderModel2>>()
-    val banners: LiveData<List<SliderModel2>> = _banner
+    private val _banner = MutableLiveData<List<SliderModel>>()
+    val banners: LiveData<List<SliderModel>> = _banner
 
     private val _products = MutableLiveData<List<ProductsItem>>()
     val products: LiveData<List<ProductsItem>> get() = _products
@@ -81,9 +79,9 @@ class ProfileViewModel(private val repository: Repository) : ViewModel() {
         val Ref = firebaseDatabase.getReference("banners")
         Ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val lists = mutableListOf<SliderModel2>()
+                val lists = mutableListOf<SliderModel>()
                 for (childSnapshot in snapshot.children) {
-                    val list = childSnapshot.getValue(SliderModel2::class.java)
+                    val list = childSnapshot.getValue(SliderModel::class.java)
                     if (list != null) {
                         lists.add(list)
                     }
