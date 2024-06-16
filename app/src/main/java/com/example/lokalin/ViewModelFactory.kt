@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.di.Injection
+import com.example.lokalin.ui.Order.history.HistoryViewModel
+import com.example.lokalin.ui.Order.order.OrderViewModel
 import com.example.lokalin.ui.addproduct.AddProductViewModel
 import com.example.lokalin.ui.cart.CartViewModel
 import com.example.lokalin.ui.categories.CategoriesViewModel
@@ -58,6 +60,12 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(CheckoutViewModel::class.java) -> {
                 CheckoutViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(OrderViewModel::class.java) -> {
+                OrderViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
+                HistoryViewModel(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

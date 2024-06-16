@@ -108,5 +108,8 @@
     <string name="size_hint">Enter size</string>
     <string name="rating">Rating</string>
     <string name="rating_hint">Enter rating</string>
+    <string name="pilih_payment">Pilih Pembayaran</string>
+    <string name="choose_shippers">Pilih Pengirim</string>
+    <string name="shippers">Pengirim</string>
 
 </resources>

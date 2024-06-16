@@ -1,5 +1,6 @@
 package com.example.api
 
+import OrdersItem
 import OrdersResponse
 import com.example.response.AddCartResponse
 import com.example.response.AddWishlistResponse
@@ -7,10 +8,13 @@ import com.example.response.Brand
 import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
+import com.example.response.Payment
 import com.example.response.ProductRecommendation
 import com.example.response.ProductResponse
 import com.example.response.ProductsItem
 import com.example.response.RegisterResponse
+import com.example.response.Shippers
+import com.example.response.ShippersItem
 import com.example.response.UpdateCartResponse
 import com.example.response.UserProfileResponseItem
 import com.example.response.WishlistResponseItem
@@ -148,6 +152,23 @@ interface ApiService {
         @Field("freight") freight: Int,
         @Field("shipperId") shipperId: String
     ): OrdersResponse
+
+    @GET("payments")
+    suspend fun getPayments(): List<Payment>
+    @GET("shippers")
+    suspend fun getShippers(): List<ShippersItem>
+
+    @GET("orders/process")
+    suspend fun getOrdersProcessing(
+        @Header("Authorization") token: String
+    ): List<OrdersItem>
+
+    @GET("orders/finished")
+    suspend fun getFinished(
+        @Header("Authorization") token: String
+    ): List<OrdersItem>
+
+
 
 
 }

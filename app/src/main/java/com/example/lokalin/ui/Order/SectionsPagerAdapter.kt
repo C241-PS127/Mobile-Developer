@@ -5,10 +5,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.lokalin.ui.Order.history.HistoryFragment
 import com.example.lokalin.ui.Order.order.OrderFragment
-import com.example.lokalin.ui.categories.CategoriesFragment
-import com.example.lokalin.ui.profile.ProfileFragment
-import com.example.lokalin.ui.recycle.RecycleFragment
-import com.example.lokalin.ui.search.SearchFragment
 
 class SectionsPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 

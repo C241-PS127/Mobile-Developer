@@ -1,5 +1,6 @@
 package com.example.repo
 
+import OrdersItem
 import OrdersResponse
 import androidx.datastore.core.IOException
 import androidx.lifecycle.LiveData
@@ -18,11 +19,13 @@ import com.example.response.Brand
 import com.example.response.CartResponseItem
 import com.example.response.CategoryResponseItem
 import com.example.response.LoginResponse
+import com.example.response.Payment
 import com.example.response.ProductItem
 import com.example.response.ProductRecommendation
 import com.example.response.ProductResponse
 import com.example.response.ProductsItem
 import com.example.response.RegisterResponse
+import com.example.response.ShippersItem
 import com.example.response.UserProfileResponseItem
 import com.example.response.WishlistResponseItem
 import com.example.storyapp.data.pref.UserModel
@@ -135,6 +138,23 @@ class Repository private constructor(
         val wishlist = apiService.getWishlist(token)
         return wishlist ?: emptyList()
     }
+
+    suspend fun getPayment(): List<Payment> {
+        return apiService.getPayments()
+    }
+
+    suspend fun getShippers(): List<ShippersItem> {
+        return apiService.getShippers()
+    }
+
+    suspend fun getOrdersProcessing(token: String): List<OrdersItem> {
+        return apiService.getOrdersProcessing(token)
+    }
+
+    suspend fun getFinished(token: String): List<OrdersItem> {
+        return apiService.getFinished(token)
+    }
+
 
     suspend fun addWishlist(token: String, productId: String): AddWishlistResponse {
 
