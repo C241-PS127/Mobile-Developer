@@ -9,9 +9,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentCheckoutBinding
+import com.example.lokalin.ui.cart.CartViewModel
+import com.example.lokalin.ui.home.CartAdapter
+import java.text.NumberFormat
+import java.util.Locale
 
 class CheckoutFragment : Fragment() {
 
@@ -19,6 +25,10 @@ class CheckoutFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: CheckoutFragmentArgs by navArgs()
     private val viewModel by viewModels<CheckoutViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
+
+    private val cartViewModel by viewModels<CartViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
     private lateinit var tokenUser: String
@@ -45,13 +55,23 @@ class CheckoutFragment : Fragment() {
                 tokenUser = user.token
 
                 setupAutoCompleteTextView()
+                setupAction(tokenUser)
+                viewModel.allCart(tokenUser)
 
                 binding.uploadButton.setOnClickListener {
                     val freight = 1
                     viewModel.addOrder(tokenUser, cartId, selectedPaymentId, freight, selectedShippersId)
+                    Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
+                    binding.root.postDelayed({
+                        findNavController().navigateUp()
+                    }, 500)
                 }
             }
         }
+        binding.backButton.setOnClickListener(){
+            findNavController().navigateUp()
+        }
+
 
         viewModel.getPayments()
         viewModel.getShippers()
@@ -120,6 +140,28 @@ class CheckoutFragment : Fragment() {
             }
         }
     }
+
+    private fun setupAction(token: String) {
+        val adapter = CartAdapter(cartViewModel, token)
+        binding.recCart.adapter = adapter
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.recCart.layoutManager = layoutManager
+
+        viewModel.cart.observe(viewLifecycleOwner) { cart ->
+            Log.d("TAG", "Hasil Cartku ${cart}")
+            if (cart?.isNotEmpty() == true) {
+                adapter.submitList(cart)
+                binding.priceProductEditText.setText(cart[0].unitPrice?.let { formatRupiah(it) })
+
+            }
+        }
+    }
+    private fun formatRupiah(amount: Int): String {
+        val localeID = Locale("in", "ID")
+        val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
+        return formatRupiah.format(amount)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

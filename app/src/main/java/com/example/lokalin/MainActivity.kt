@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.addProductFragment -> hideBottomNav()
                 R.id.searchFragment -> hideBottomNav()
                 R.id.myProductFragment -> hideBottomNav()
+                R.id.checkoutFragment -> hideBottomNav()
+                R.id.historyFragment -> hideBottomNav()
+
 
                 else -> showBottomNav()
             }

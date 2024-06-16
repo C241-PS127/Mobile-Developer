@@ -9,6 +9,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.repo.Repository
+import com.example.response.CartResponseItem
 import com.example.response.Payment
 import com.example.response.ShippersItem
 import com.example.storyapp.data.pref.UserModel
@@ -22,6 +23,10 @@ class CheckoutViewModel(private val repository: Repository) : ViewModel() {
 
     private var _shippers = MutableLiveData<List<ShippersItem>>()
     val shippers: LiveData<List<ShippersItem>> get() = _shippers
+
+    private var _cart = MutableLiveData<List<CartResponseItem>?>()
+    val cart: LiveData<List<CartResponseItem>?> get() = _cart
+
 
     fun addOrder(
         token: String, cartId: String, paymentId: String, freight: Int, shipperId: String
@@ -43,6 +48,16 @@ class CheckoutViewModel(private val repository: Repository) : ViewModel() {
 
             } catch (e: Exception) {
                 println("Error fetching payments: ${e.message}")  // Logging
+            }
+        }
+    }
+
+    fun allCart(token: String) {
+        viewModelScope.launch {
+            try {
+                val cart = repository.getMyCart(token)
+                _cart.postValue(cart)
+            } catch (_: Exception) {
             }
         }
     }
