@@ -7,6 +7,7 @@ import com.example.di.Injection
 import com.example.lokalin.ui.addproduct.AddProductViewModel
 import com.example.lokalin.ui.cart.CartViewModel
 import com.example.lokalin.ui.categories.CategoriesViewModel
+import com.example.lokalin.ui.checkout.CheckoutViewModel
 import com.example.lokalin.ui.detailproduct.DetailViewModel
 import com.example.lokalin.ui.home.HomeViewModel
 import com.example.lokalin.ui.login.LoginViewModel
@@ -54,6 +55,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(MyProductViewModel::class.java) -> {
                 MyProductViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(CheckoutViewModel::class.java) -> {
+                CheckoutViewModel(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

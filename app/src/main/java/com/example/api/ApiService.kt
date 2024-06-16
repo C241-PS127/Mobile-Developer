@@ -1,5 +1,6 @@
 package com.example.api
 
+import OrdersResponse
 import com.example.response.AddCartResponse
 import com.example.response.AddWishlistResponse
 import com.example.response.Brand
@@ -17,6 +18,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -28,6 +30,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
+
 
 interface ApiService {
     @FormUrlEncoded
@@ -52,8 +55,7 @@ interface ApiService {
 
     @GET("products")
     suspend fun getAllProducts(
-        @Query("page") page: Int,
-        @Query("limit") limit: Int
+        @Query("page") page: Int, @Query("limit") limit: Int
     ): ProductResponse
 
     @GET("products/brand/{brandName}")
@@ -76,14 +78,12 @@ interface ApiService {
     @FormUrlEncoded
     @POST("wishlist")
     suspend fun addWishlist(
-        @Header("Authorization") token: String,
-        @Field("productId") productId: String
+        @Header("Authorization") token: String, @Field("productId") productId: String
     ): AddWishlistResponse
 
     @DELETE("wishlist/{wishlistId}")
     suspend fun deleteWishlist(
-        @Header("Authorization") token: String,
-        @Path("wishlistId") wishlistId: String
+        @Header("Authorization") token: String, @Path("wishlistId") wishlistId: String
     ): List<WishlistResponseItem>
 
     @GET("cart/myCart")
@@ -93,27 +93,29 @@ interface ApiService {
     @POST("cart")
     suspend fun addCart(
         @Header("Authorization") token: String,
-        @Field("productId") productId: String, @Field("count") count: Int
+        @Field("productId") productId: String,
+        @Field("count") count: Int
     ): AddCartResponse
 
     @FormUrlEncoded
     @PATCH("cart/{cartId}")
     suspend fun updateCart(
         @Header("Authorization") token: String,
-        @Path("cartId") cartId: String, @Field("count") count: Int
+        @Path("cartId") cartId: String,
+        @Field("count") count: Int
     ): UpdateCartResponse
 
     @PATCH("cart/{cartId}")
     suspend fun hideCart(
         @Header("Authorization") token: String,
-        @Path("cartId") cartId: String, @Field("isActive") isActive: Boolean
+        @Path("cartId") cartId: String,
+        @Field("isActive") isActive: Boolean
     ): UpdateCartResponse
 
 
     @DELETE("cart/{cartId}")
     suspend fun deleteCart(
-        @Header("Authorization") token: String,
-        @Path("cartId") cartId: String
+        @Header("Authorization") token: String, @Path("cartId") cartId: String
     ): AddCartResponse
 
     @Multipart
@@ -136,5 +138,16 @@ interface ApiService {
 
     @DELETE("products/{productId}")
     suspend fun deleteProduct(@Path("productId") productId: String)
+
+    @FormUrlEncoded
+    @POST("orders")
+    suspend fun addOrder(
+        @Header("Authorization") token: String,
+        @Field("cartId") cartId: String,
+        @Field("paymentId") paymentId: String,
+        @Field("freight") freight: Int,
+        @Field("shipperId") shipperId: String
+    ): OrdersResponse
+
 
 }

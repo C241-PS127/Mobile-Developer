@@ -1,5 +1,6 @@
 package com.example.repo
 
+import OrdersResponse
 import androidx.datastore.core.IOException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
@@ -199,20 +200,21 @@ class Repository private constructor(
         emit(ResultState.Loading)
         try {
             val productNameBody = productName.toRequestBody("text/plain".toMediaTypeOrNull())
-            val productDescriptionBody = productDescription.toRequestBody("text/plain".toMediaTypeOrNull())
+            val productDescriptionBody =
+                productDescription.toRequestBody("text/plain".toMediaTypeOrNull())
             val brandIdBody = brandId.toRequestBody("text/plain".toMediaTypeOrNull())
             val categoryIdBody = categoryId.toRequestBody("text/plain".toMediaTypeOrNull())
             val unitPriceBody = unitPrice.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val unitSizeBody = unitSize.toRequestBody("text/plain".toMediaTypeOrNull())
-            val unitInStockBody = unitInStock.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val isAvailableBody = isAvailable.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val unitInStockBody =
+                unitInStock.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val isAvailableBody =
+                isAvailable.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val ratingBody = rating.toRequestBody("text/plain".toMediaTypeOrNull())
 
             val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
             val multipartBody = MultipartBody.Part.createFormData(
-                "picture",
-                imageFile.name,
-                requestImageFile
+                "picture", imageFile.name, requestImageFile
             )
 
             val successResponse = apiService.addProducts(
@@ -238,6 +240,17 @@ class Repository private constructor(
 
     suspend fun deleteProduct(productId: String) {
         apiService.deleteProduct(productId)
+    }
+
+
+    suspend fun addorder(
+        token: String, cartId: String, freight: Int, shipperId: String, paymentId: String
+    ): OrdersResponse {
+
+        val successResponse = apiService.addOrder(
+            token, cartId, paymentId, freight, shipperId
+        )
+        return successResponse
     }
 
     companion object {

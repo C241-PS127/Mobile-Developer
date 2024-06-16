@@ -42,12 +42,16 @@
         android:name="com.example.lokalin.ui.home.CartFragment"
         android:label="@string/cart"
         tools:layout="@layout/fragment_cart" >
+
         <action
             android:id="@+id/action_navigation_cart_to_historyFragment"
             app:destination="@id/historyFragment" />
         <action
             android:id="@+id/action_navigation_cart_to_historyFragment2"
             app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_navigation_cart_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
     </fragment>
 
     <fragment
@@ -154,5 +158,15 @@
         android:name="com.example.lokalin.ui.myproducts.MyProductsFragment"
         android:label="MyProductFragment"
         tools:layout="@layout/fragment_my_product" />
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.lokalin.ui.checkout.CheckoutFragment"
+        android:label="fragment_checkout"
+        tools:layout="@layout/fragment_checkout" >
+        <argument
+            android:name="cartId"
+            app:argType="string" />
+
+    </fragment>
 
 </navigation>

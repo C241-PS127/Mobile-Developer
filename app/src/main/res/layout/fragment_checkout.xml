@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextFreight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Freight"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextPaymentId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Payment ID"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextOrderStatusId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Order Status ID"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextShipperId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Shipper ID"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextCartId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cart ID"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextCartId"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Submit" />
+
+</LinearLayout>
