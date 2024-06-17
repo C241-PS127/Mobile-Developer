@@ -1,5 +1,6 @@
 package com.example.repo
 
+import OrderStatusItem
 import OrdersItem
 import OrdersResponse
 import androidx.datastore.core.IOException
@@ -271,6 +272,14 @@ class Repository private constructor(
             token, cartId, paymentId, freight, shipperId
         )
         return successResponse
+    }
+
+    suspend fun getShopOrders(): List<OrdersItem> {
+        return apiService.getShopOrders()
+    }
+
+    suspend fun getOrderStatus(): List<OrderStatusItem> {
+        return apiService.getOrderStatus()
     }
 
     companion object {

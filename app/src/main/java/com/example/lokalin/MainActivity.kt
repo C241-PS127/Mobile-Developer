@@ -40,8 +40,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.myProductFragment -> hideBottomNav()
                 R.id.checkoutFragment -> hideBottomNav()
                 R.id.historyFragment -> hideBottomNav()
-
-
+                R.id.shopOrdersFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

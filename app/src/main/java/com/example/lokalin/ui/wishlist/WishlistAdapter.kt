@@ -69,7 +69,6 @@ class WishlistAdapter(
                             .show()
                     }
                     setNegativeButton("Tidak") { _, _ ->
-                        // Tidak melakukan apa-apa jika tombol "Tidak" diklik
                     }
                     create().show()
                 }

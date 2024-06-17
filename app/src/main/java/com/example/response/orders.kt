@@ -81,3 +81,12 @@ data class OrdersItem(
 	@field:SerializedName("Freight")
 	val freight: Int? = null
 )
+
+data class OrderStatusItem(
+
+	@field:SerializedName("OrderStatusId")
+	val orderStatusId: String? = null,
+
+	@field:SerializedName("StatusName")
+	val statusName: String? = null,
+)

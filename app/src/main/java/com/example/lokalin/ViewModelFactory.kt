@@ -16,6 +16,7 @@ import com.example.lokalin.ui.login.LoginViewModel
 import com.example.lokalin.ui.myproducts.MyProductViewModel
 import com.example.lokalin.ui.profile.ProfileViewModel
 import com.example.lokalin.ui.search.SearchViewModel
+import com.example.lokalin.ui.shoporders.ShopOrdersViewModel
 import com.example.lokalin.ui.signup.SignUpViewModel
 import com.example.lokalin.ui.wishlist.WishlistViewModel
 import com.example.repo.Repository
@@ -66,6 +67,9 @@ class ViewModelFactory(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
                 HistoryViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ShopOrdersViewModel::class.java) -> {
+                ShopOrdersViewModel(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

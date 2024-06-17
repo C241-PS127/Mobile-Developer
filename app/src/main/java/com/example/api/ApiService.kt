@@ -1,5 +1,6 @@
 package com.example.api
 
+import OrderStatusItem
 import OrdersItem
 import OrdersResponse
 import com.example.response.AddCartResponse
@@ -168,7 +169,12 @@ interface ApiService {
         @Header("Authorization") token: String
     ): List<OrdersItem>
 
+    @GET("orders")
+    suspend fun getShopOrders(
+    ): List<OrdersItem>
 
-
+    @GET("orderStatus")
+    suspend fun getOrderStatus(
+    ): List<OrderStatusItem>
 
 }

@@ -145,6 +145,9 @@
         <action
             android:id="@+id/action_shopFragment_to_myProductFragment"
             app:destination="@id/myProductFragment" />
+        <action
+            android:id="@+id/action_shopFragment_to_shopOrdersFragment"
+            app:destination="@id/shopOrdersFragment" />
     </fragment>
 
     <fragment
@@ -173,5 +176,11 @@
         android:name="com.example.lokalin.MainActivity"
         android:label="fragment_user_order"
         tools:layout="@layout/fragment_user_order" />
+
+    <fragment
+        android:id="@+id/shopOrdersFragment"
+        android:name="com.example.lokalin.ui.shoporders.ShopOrdersFragment"
+        android:label="MyProductFragment"
+        tools:layout="@layout/fragment_shop_orders" />
 
 </navigation>

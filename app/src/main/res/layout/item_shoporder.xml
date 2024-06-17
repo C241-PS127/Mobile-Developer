@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_product"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+    <TextView
+        android:id="@+id/txt_cusname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:singleLine="true"
+        android:textColor="@color/navy"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="Nama Pemesan : "
+        app:layout_constraintStart_toEndOf="@id/img_product"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_customer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:singleLine="true"
+        android:textColor="@color/navy"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="Nama"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txt_cusname"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:singleLine="true"
+        android:textColor="@color/navy"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="COD"
+        app:layout_constraintStart_toEndOf="@id/img_product"
+        app:layout_constraintTop_toBottomOf="@id/txt_cusname" />
+
+    <TextView
+        android:id="@+id/tv_company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:singleLine="true"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="(JNE)"
+        app:layout_constraintStart_toEndOf="@id/tv_payment"
+        app:layout_constraintTop_toBottomOf="@id/txt_cusname" />
+
+    <TextView
+        android:id="@+id/tv_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_product"
+        app:layout_constraintTop_toBottomOf="@id/tv_payment"
+        tools:text="@string/type" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:singleLine="true"
+        android:textColor="@color/red"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_product"
+        app:layout_constraintTop_toBottomOf="@id/tv_type"
+        tools:text="@string/price" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/navy"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/img_product"
+        app:layout_constraintTop_toBottomOf="@id/tv_price"
+        tools:text="status" />
+
+    <TextView
+        android:id="@+id/txt_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:text="ubah ▼"
+        android:textColor="@color/orange"
+        android:textSize="16sp"
+        android:visibility="visible"
+        android:clickable="true"
+        android:onClick="onTextViewClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/statusInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/img_product"
+        app:layout_constraintTop_toBottomOf="@id/tv_status">
+
+        <AutoCompleteTextView
+            android:id="@+id/statusAutoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Pilih status"
+            android:inputType="none"
+            android:textSize="14sp"
+            android:paddingStart="5dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="67dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:text="ubah"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/statusInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/tv_status"/>
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="67dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:text="batal"
+        android:textSize="10sp"
+        android:backgroundTint="@color/red"
+        app:layout_constraintStart_toEndOf="@id/editButton"
+        app:layout_constraintTop_toBottomOf="@id/tv_status"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
