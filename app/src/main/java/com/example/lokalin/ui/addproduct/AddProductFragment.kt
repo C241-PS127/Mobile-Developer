@@ -10,21 +10,16 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import com.example.api.ApiConfig
-import com.example.di.Injection
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentAddProductBinding
 import com.example.lokalin.ui.categories.CategoriesViewModel
 import com.example.lokalin.ui.profile.ProfileViewModel
 import com.example.lokalin.ui.search.SearchViewModel
-import com.example.storyapp.data.pref.UserModel
 import com.example.utils.ResultState
 import com.example.utils.reduceFileImage
 import com.example.utils.uriToFile
@@ -65,8 +60,7 @@ class AddProductFragment : Fragment() {
     private lateinit var categoryAdapter: ArrayAdapter<String>
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddProductBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -104,9 +98,7 @@ class AddProductFragment : Fragment() {
 
     private fun setupView() {
         categoryAdapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_dropdown_item_1line,
-            mutableListOf()
+            requireContext(), android.R.layout.simple_dropdown_item_1line, mutableListOf()
         )
         binding.categoryAutoCompleteTextView.setAdapter(categoryAdapter)
 

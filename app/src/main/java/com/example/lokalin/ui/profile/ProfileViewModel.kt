@@ -10,10 +10,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.repo.Repository
-import com.example.response.ProductsItem
-import com.example.response.SliderModel
-import com.example.response.UserProfileResponseItem
+import com.example.data.Repository
+import com.example.data.response.ProductsItem
+import com.example.data.response.SliderModel
+import com.example.data.response.UserProfileResponseItem
 import com.example.storyapp.data.pref.UserModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -37,15 +37,15 @@ class ProfileViewModel(private val repository: Repository) : ViewModel() {
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     fun getProfile(token: String) {
-        _isLoading.postValue(true) // Set loading to true
+        _isLoading.postValue(true)
         viewModelScope.launch {
             try {
                 val stories = repository.getProfile(token)
                 _profile.postValue(stories)
-                _isLoading.postValue(false) // Set loading to true
+                _isLoading.postValue(false)
 
             } catch (_: Exception) {
-                _isLoading.postValue(true) // Set loading to true
+                _isLoading.postValue(true)
 
             }
         }
@@ -58,21 +58,17 @@ class ProfileViewModel(private val repository: Repository) : ViewModel() {
 
 
     val productss = try {
-        _isLoading.postValue(true) // Set loading to true before initializing Pager
-        val pager = Pager(
-            config = PagingConfig(
-                pageSize = 4,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { repository.getProductsPagingSource() }
-        )
-        _isLoading.postValue(false) // Set loading to false after initializing Pager
+        _isLoading.postValue(true)
+        val pager = Pager(config = PagingConfig(
+            pageSize = 4, enablePlaceholders = false
+        ), pagingSourceFactory = { repository.getProductsPagingSource() })
+        _isLoading.postValue(false)
         pager.flow.cachedIn(viewModelScope)
     } catch (e: Exception) {
         // Handle the exception, if needed
-        _isLoading.postValue(true) // Set loading to true when an exception occurs
+        _isLoading.postValue(true)
         Log.e(ContentValues.TAG, "Error creating Pager", e)
-        null // Or another appropriate action
+        null
     }
 
     fun loadBanners() {

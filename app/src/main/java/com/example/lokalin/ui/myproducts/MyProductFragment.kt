@@ -1,24 +1,20 @@
 package com.example.lokalin.ui.myproducts
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.ViewModelFactory
-import com.example.lokalin.databinding.FragmentAddProductBinding
+import com.example.lokalin.adapter.MyProductAdapter
 import com.example.lokalin.databinding.FragmentMyProductBinding
-import com.example.lokalin.ui.cart.CartViewModel
-import com.example.lokalin.ui.home.WishlistAdapter
 import com.example.lokalin.ui.profile.ProfileViewModel
 import com.example.lokalin.ui.wishlist.WishlistViewModel
 
-class MyProductsFragment : Fragment() {
+class MyProductFragment : Fragment() {
     private var _binding: FragmentMyProductBinding? = null
     private val binding get() = _binding!!
 
@@ -36,8 +32,7 @@ class MyProductsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyProductBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -80,14 +75,12 @@ class MyProductsFragment : Fragment() {
         })
     }
 
-    private fun loading(){
+    private fun loading() {
         myProductsViewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
-                // Tampilkan indikator loading
                 binding.progressBar.visibility = View.VISIBLE
 
             } else {
-                // Sembunyikan indikator loading
                 binding.progressBar.visibility = View.GONE
 
             }

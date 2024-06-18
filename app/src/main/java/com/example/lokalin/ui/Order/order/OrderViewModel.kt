@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.repo.Repository
-import com.example.response.UserProfileResponseItem
+import com.example.data.Repository
 import com.example.storyapp.data.pref.UserModel
 import kotlinx.coroutines.launch
 

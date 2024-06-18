@@ -6,21 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.lokalin.R
+import com.example.lokalin.adapter.SectionsPagerAdapter
 import com.example.lokalin.databinding.FragmentUserOrderBinding
-import com.example.lokalin.ui.cart.CartViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class UserOrderFragment : Fragment() {
 
     private var _binding: FragmentUserOrderBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(

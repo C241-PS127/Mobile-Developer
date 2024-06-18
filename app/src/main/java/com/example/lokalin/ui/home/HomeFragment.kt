@@ -1,14 +1,12 @@
 package com.example.lokalin.ui.home
 
 import android.app.SearchManager
-import android.content.Intent
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.os.Bundle
 import android.provider.BaseColumns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -20,19 +18,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.CompositePageTransformer
-import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentHomeBinding
-import com.example.lokalin.ui.profile.RecommendationAdapter
-import com.example.lokalin.ui.search.BrandAdapter
-import com.example.response.SliderModel
+import com.example.data.response.SliderModel
+import com.example.lokalin.adapter.BrandAdapterHome
+import com.example.lokalin.adapter.ExploreAdapter
+import com.example.lokalin.adapter.SliderAdapter
+import com.example.utils.ZoomOutPageTransformer
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -65,7 +60,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initBanner() {
-        binding?.let { // gunakan safe call operator ?. untuk memeriksa null
+        binding?.let {
             it.progressbar.visibility = View.VISIBLE
             viewModel.banners.observe(viewLifecycleOwner, Observer { items ->
                 it.apply {
@@ -75,7 +70,7 @@ class HomeFragment : Fragment() {
             })
             viewModel.loadBanners()
         }
-        binding?.let { // gunakan safe call operator ?. untuk memeriksa null
+        binding?.let {
             it.progressbar4.visibility = View.VISIBLE
             viewModel.banner2.observe(viewLifecycleOwner, Observer { items ->
                 it.apply {
@@ -169,7 +164,6 @@ class HomeFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Perform filtering or updating suggestions here
                 val cursor = getSuggestions(newText)
                 cursorAdapter.changeCursor(cursor)
                 return true
@@ -193,10 +187,11 @@ class HomeFragment : Fragment() {
         return matrixCursor
     }
 
-    private fun explore(){
+    private fun explore() {
         val adapter = ExploreAdapter()
         binding.rvExplore.adapter = adapter
-        binding.rvExplore.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvExplore.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.productss?.collectLatest { pagingData ->
@@ -205,10 +200,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun explores(){
+    private fun explores() {
         val adapter = ExploreAdapter()
         binding.rvExplore2.adapter = adapter
-        binding.rvExplore2.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvExplore2.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.productsss?.collectLatest { pagingData ->
@@ -217,12 +213,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun brand(){
+    private fun brand() {
         val adapter2 = BrandAdapterHome { brandName ->
             binding.searchview.setQuery(brandName, true)
         }
         binding.rvBrands.adapter = adapter2
-        binding.rvBrands.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvBrands.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         viewModel.brands.observe(viewLifecycleOwner) { brands ->
             adapter2.submitList(brands)
@@ -230,22 +227,18 @@ class HomeFragment : Fragment() {
     }
 
 
-
-    private fun loading(){
+    private fun loading() {
         viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
-                // Tampilkan indikator loading
                 binding.progressbar2.visibility = View.VISIBLE
 
             } else {
-                // Sembunyikan indikator loading
                 binding.progressbar2.visibility = View.GONE
 
             }
         })
         viewModel.isLoading2.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
-                // Tampilkan indikator loading
                 binding.progressbar3.visibility = View.VISIBLE
                 binding.progressbar5.visibility = View.VISIBLE
 
@@ -268,7 +261,8 @@ class HomeFragment : Fragment() {
                 binding.imgUser.visibility = View.VISIBLE
                 binding.btnLogin.visibility = View.VISIBLE
                 binding.imgLogout.setOnClickListener() {
-                    Toast.makeText(requireActivity(),"Anda sudah logout", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), "Anda sudah logout", Toast.LENGTH_SHORT)
+                        .show()
                 }
             } else {
                 binding.imgLogout.setOnClickListener() {
@@ -277,7 +271,8 @@ class HomeFragment : Fragment() {
                         setMessage("Apakah anda ingin logout")
                         setPositiveButton("Iya") { _, _ ->
                             viewModel.logout()
-                            Toast.makeText(requireActivity(),"Berhasil logout", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(), "Berhasil logout", Toast.LENGTH_SHORT)
+                                .show()
                         }
                         setNegativeButton("Tidak") { _, _ ->
 

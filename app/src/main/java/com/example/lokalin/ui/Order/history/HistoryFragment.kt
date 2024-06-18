@@ -9,8 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentHistory2Binding
-import com.example.lokalin.databinding.FragmentOrderBinding
-import com.example.lokalin.ui.home.OrderAdapter
+import com.example.lokalin.adapter.OrderAdapter
 
 class HistoryFragment : Fragment() {
 
@@ -22,8 +21,7 @@ class HistoryFragment : Fragment() {
     private lateinit var tokenUser: String
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHistory2Binding.inflate(inflater, container, false)
         return binding.root

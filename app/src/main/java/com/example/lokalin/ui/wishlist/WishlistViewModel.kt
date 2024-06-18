@@ -1,19 +1,14 @@
 package com.example.lokalin.ui.wishlist
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.repo.Repository
-import com.example.response.CategoryResponseItem
-import com.example.response.UserProfileResponseItem
-import com.example.response.WishlistResponseItem
+import com.example.data.Repository
+import com.example.data.response.WishlistResponseItem
 import com.example.storyapp.data.pref.UserModel
-import com.example.utils.ResultState
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 class WishlistViewModel(private val repository: Repository) : ViewModel() {
 

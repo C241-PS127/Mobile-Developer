@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.repo.Repository
-import com.example.response.AddCartResponse
-import com.example.response.CartResponseItem
-import com.example.response.UpdateCartResponse
-import com.example.response.WishlistResponseItem
+import com.example.data.Repository
+import com.example.data.response.CartResponseItem
+import com.example.data.response.UpdateCartResponse
 import com.example.storyapp.data.pref.UserModel
 import com.example.utils.ResultState
 import kotlinx.coroutines.launch
@@ -42,7 +40,7 @@ class CartViewModel(private val repository: Repository) : ViewModel() {
         return repository.getSession().asLiveData()
     }
 
-    fun updateCart(token: String, cartId: String, count:Int) {
+    fun updateCart(token: String, cartId: String, count: Int) {
         repository.updateCart(token, cartId, count).observeForever { resultState ->
             _result.postValue(resultState)
         }

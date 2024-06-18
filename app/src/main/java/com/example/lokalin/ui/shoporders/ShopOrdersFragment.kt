@@ -8,12 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
-import com.example.lokalin.databinding.FragmentShopBinding
+import com.example.lokalin.adapter.ShopOrdersAdapter
 import com.example.lokalin.databinding.FragmentShopOrdersBinding
-import com.example.lokalin.ui.myproducts.MyProductAdapter
-import com.example.lokalin.ui.profile.ProfileViewModel
 
 class ShopOrdersFragment : Fragment() {
     private var _binding: FragmentShopOrdersBinding? = null
@@ -52,11 +49,9 @@ class ShopOrdersFragment : Fragment() {
     private fun loading(){
         shopOrdersViewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
-                // Tampilkan indikator loading
                 binding.progressBar.visibility = View.VISIBLE
 
             } else {
-                // Sembunyikan indikator loading
                 binding.progressBar.visibility = View.GONE
 
             }

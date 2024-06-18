@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentProfileBinding
-import com.example.lokalin.ui.home.SliderAdapter
-import com.example.lokalin.ui.home.ZoomOutPageTransformer
-import com.example.response.SliderModel
+import com.example.lokalin.adapter.SliderAdapter
+import com.example.utils.ZoomOutPageTransformer
+import com.example.data.response.SliderModel
+import com.example.lokalin.adapter.RecommendationAdapter2
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -73,7 +74,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun recommendation(){
-        val adapter = RecommendationAdapter()
+        val adapter = RecommendationAdapter2()
         binding.rvExplore.adapter = adapter
         binding.rvExplore.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
@@ -94,8 +95,8 @@ class ProfileFragment : Fragment() {
                 emailInput.text = it[0].email
 
                 if(!brand){
-                    icnShop.visibility = View.INVISIBLE
-                    txtShop.visibility = View.INVISIBLE
+                    icnShop.visibility = View.GONE
+                    txtShop.visibility = View.GONE
                 } else {
                     icnShop.visibility = View.VISIBLE
                     txtShop.visibility = View.VISIBLE
@@ -109,11 +110,9 @@ class ProfileFragment : Fragment() {
     private fun loading(){
         viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
-                // Tampilkan indikator loading
                 binding.progressbar2.visibility = View.VISIBLE
                 binding.progressIndicator.visibility = View.VISIBLE
             } else {
-                // Sembunyikan indikator loading
                 binding.progressbar2.visibility = View.GONE
                 binding.progressIndicator.visibility = View.GONE
             }
@@ -124,6 +123,21 @@ class ProfileFragment : Fragment() {
         binding.apply {
             icnShop.setOnClickListener {
                 findNavController().navigate(R.id.shopFragment)
+            }
+            icnHome.setOnClickListener {
+                findNavController().navigate(R.id.navigation_home)
+            }
+            icnCategories.setOnClickListener {
+                findNavController().navigate(R.id.navigation_categories)
+            }
+            icnCart.setOnClickListener {
+                findNavController().navigate(R.id.navigation_cart)
+            }
+            icnWishlist.setOnClickListener {
+                findNavController().navigate(R.id.navigation_wishlist)
+            }
+            icnRecycle.setOnClickListener {
+                findNavController().navigate(R.id.recycleFragment)
             }
         }
     }
@@ -138,7 +152,6 @@ class ProfileFragment : Fragment() {
         initBanner()
         loading()
         menu()
-//        viewModel.allProducts()
 
     }
 

@@ -1,27 +1,15 @@
 package com.example.lokalin.ui.categories
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentCategoriesBinding
-import com.example.lokalin.ui.cart.CartViewModel
-import com.example.lokalin.ui.home.CategoryAdapter
-import com.example.lokalin.ui.home.ExploreAdapter
-import com.example.lokalin.ui.home.HomeFragmentDirections
-import com.example.lokalin.ui.home.HomeViewModel
-import com.example.response.CategoryResponseItem
-import com.example.utils.ResultState
+import com.example.lokalin.adapter.CategoryAdapter
 
 class CategoriesFragment : Fragment() {
 

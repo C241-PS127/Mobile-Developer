@@ -11,19 +11,16 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
+import com.example.lokalin.adapter.BrandAdapter
+import com.example.lokalin.adapter.RecommendationAdapterSearch
 import com.example.lokalin.databinding.FragmentSearchBinding
-import com.example.lokalin.ui.home.ExploreAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
@@ -39,15 +36,14 @@ class SearchFragment : Fragment() {
     lateinit var cbTerjauh: RadioButton
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         setupView()
 
-        binding.swipeRefreshLayout.setOnRefreshListener(){
+        binding.swipeRefreshLayout.setOnRefreshListener() {
             setupView()
             binding.swipeRefreshLayout.isRefreshing = false
         }
@@ -56,7 +52,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupSearchView() {
-        binding.searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener  {
+        binding.searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     viewModel.getProductRecommendation(it)
@@ -106,22 +102,23 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun rvBrand(){
+    private fun rvBrand() {
         val adapter = BrandAdapter { brandName ->
             binding.searchview.setQuery(brandName, true)
         }
 
         binding.rvBrands.adapter = adapter
-        binding.rvBrands.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvBrands.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         viewModel.brands.observe(viewLifecycleOwner) { brands ->
             adapter.submitList(brands)
         }
     }
 
-    private fun recommendation(){
+    private fun recommendation() {
 
-        val adapter2 = RecommendationAdapter()
+        val adapter2 = RecommendationAdapterSearch()
         binding.rvExplore.adapter = adapter2
         binding.rvExplore.layoutManager = GridLayoutManager(requireContext(), 2)
 
@@ -131,18 +128,18 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private fun loading(){
-        viewModel.isLoading.observe(viewLifecycleOwner){
-            if (it == true){
-                binding.proggressbarSearch.visibility = View.VISIBLE
-            }else{
+    private fun loading() {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it == true) {
                 binding.proggressbarSearch.visibility = View.GONE
+            } else {
+                binding.proggressbarSearch.visibility = View.VISIBLE
 
             }
         }
     }
 
-    private fun setupView(){
+    private fun setupView() {
         setFilterData()
         setupSearchView()
         rvBrand()
@@ -158,8 +155,5 @@ class SearchFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-    }
-
-    private fun performSearch(query: String) {
     }
 }

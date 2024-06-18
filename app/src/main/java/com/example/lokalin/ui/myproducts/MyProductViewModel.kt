@@ -3,15 +3,9 @@ package com.example.lokalin.ui.myproducts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import com.example.repo.Repository
-import com.example.response.LoginResponse
-import com.example.response.ProductsItem
-import com.example.response.WishlistResponseItem
-import com.example.storyapp.data.pref.UserModel
-import com.example.utils.ResultState
+import com.example.data.Repository
+import com.example.data.response.ProductsItem
 import kotlinx.coroutines.launch
 
 class MyProductViewModel(private val repository: Repository) : ViewModel() {

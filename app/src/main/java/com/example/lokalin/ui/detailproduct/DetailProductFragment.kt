@@ -1,18 +1,13 @@
 package com.example.lokalin.ui.detailproduct
 
 import android.os.Bundle
-import android.util.Log
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -20,11 +15,8 @@ import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentDetailProductBinding
 import com.example.lokalin.ui.cart.CartViewModel
-import com.example.lokalin.ui.categories.CategoriesFragmentDirections
-import com.example.lokalin.ui.wishlist.WishlistFragmentDirections
 import com.example.lokalin.ui.wishlist.WishlistViewModel
-import com.example.response.ProductsItem
-import com.example.utils.ResultState
+import com.example.data.response.ProductsItem
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -47,11 +39,10 @@ class DetailProductFragment : Fragment() {
 
     private lateinit var productId: String
 
-    private lateinit var tokenUser: String // Jadikan global agar bisa diakses di seluruh kelas
+    private lateinit var tokenUser: String
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailProductBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -93,13 +84,21 @@ class DetailProductFragment : Fragment() {
                 if (statusFav) {
                     wishlistViewModel.deleteWishlist(tokenUser, wishlistId!!)
                     binding.btnFav.setImageResource(R.drawable.baseline_favorite_24)
-                    Toast.makeText(requireContext(), "Berhasil menghapus wishlist", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(), "Berhasil menghapus wishlist", Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     wishlistViewModel.addWishlist(tokenUser, productId)
                     binding.btnFav.setImageResource(R.drawable.baseline_favorite_red_24)
-                    Toast.makeText(requireContext(), "Berhasil menambah wishlist", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(), "Berhasil menambah wishlist", Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+        }
+
+        binding.backButton.setOnClickListener(){
+            findNavController().navigateUp()
         }
 
         setupQuantity()
@@ -167,16 +166,18 @@ class DetailProductFragment : Fragment() {
             val quantity = binding.tvQuantity.text.toString().toIntOrNull() ?: 1
             var statusCart = checkCartStatus(productId)
             val cartId = getCartIdByProductId(productId)
-            if(!statusCart){
+            if (!statusCart) {
                 viewModel.addCart(token, productId, quantity)
                 cartViewModel.allCart(token)
-                Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT)
+                    .show()
 
 
             } else {
                 if (cartId != null) {
                     cartViewModel.updateCart(token, cartId, quantity)
-                    Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Berhasil menambah cart", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -194,7 +195,7 @@ class DetailProductFragment : Fragment() {
         }
     }
 
-    private fun loading(){
+    private fun loading() {
         viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
                 // Tampilkan indikator loading
@@ -206,7 +207,7 @@ class DetailProductFragment : Fragment() {
         })
     }
 
-    private fun setupView(){
+    private fun setupView() {
         val args: DetailProductFragmentArgs by navArgs()
         productId = args.ProductId
 

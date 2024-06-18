@@ -3,10 +3,9 @@ package com.example.lokalin.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.repo.Repository
-import com.example.response.LoginResponse
+import com.example.data.Repository
+import com.example.data.response.LoginResponse
 import com.example.storyapp.data.pref.UserModel
 import com.example.utils.ResultState
 import kotlinx.coroutines.launch

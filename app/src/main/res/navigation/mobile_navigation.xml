@@ -78,6 +78,21 @@
         <action
             android:id="@+id/action_navigation_profile_to_shopFragment"
             app:destination="@id/shopFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_categories"
+            app:destination="@id/navigation_categories" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_wishlist"
+            app:destination="@id/navigation_wishlist" />
+        <action
+            android:id="@+id/action_navigation_profile_to_recycleFragment"
+            app:destination="@id/recycleFragment" />
     </fragment>
     <fragment
         android:id="@+id/recycleFragment"
@@ -158,7 +173,7 @@
 
     <fragment
         android:id="@+id/myProductFragment"
-        android:name="com.example.lokalin.ui.myproducts.MyProductsFragment"
+        android:name="com.example.lokalin.ui.myproducts.MyProductFragment"
         android:label="MyProductFragment"
         tools:layout="@layout/fragment_my_product" />
     <fragment

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.R
 import com.example.lokalin.ViewModelFactory
+import com.example.lokalin.adapter.CartAdapter
 import com.example.lokalin.databinding.FragmentCartBinding
 import com.example.lokalin.ui.cart.CartViewModel
 import java.text.NumberFormat
@@ -29,9 +30,7 @@ class CartFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -88,20 +87,18 @@ class CartFragment : Fragment() {
         }
     }
 
-    private fun load(){
+    private fun load() {
         viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
-                // Tampilkan indikator loading
                 binding.progressBar2.visibility = View.VISIBLE
             } else {
-                // Sembunyikan indikator loading
                 binding.progressBar2.visibility = View.GONE
             }
         })
 
     }
 
-    private fun loadCart(){
+    private fun loadCart() {
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (user.isLogin) {
                 setupAction(user.token)
@@ -137,7 +134,8 @@ class CartFragment : Fragment() {
                     val cartId = cartItem.cartId
 
                     cartId?.let {
-                        val action = CartFragmentDirections.actionNavigationCartToCheckoutFragment(it)
+                        val action =
+                            CartFragmentDirections.actionNavigationCartToCheckoutFragment(it)
                         findNavController().navigate(action)
                     }
                 }

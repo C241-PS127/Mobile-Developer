@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentCheckoutBinding
 import com.example.lokalin.ui.cart.CartViewModel
-import com.example.lokalin.ui.home.CartAdapter
+import com.example.lokalin.adapter.CartAdapter
 import java.text.NumberFormat
 import java.util.Locale
 

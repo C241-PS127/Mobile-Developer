@@ -5,11 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.repo.Repository
-import com.example.response.Brand
-import com.example.response.ProductItem
-import com.example.response.ProductRecommendation
-import com.example.response.ProductsItem
+import com.example.data.Repository
+import com.example.data.response.Brand
+import com.example.data.response.ProductItem
 import kotlinx.coroutines.launch
 
 class SearchViewModel(private val repository: Repository) : ViewModel() {
@@ -29,16 +27,15 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun getProductRecommendation(query: String) {
-        _isLoading.postValue(true) // Set loading to true before initializing Pager
+        _isLoading.postValue(true)
         viewModelScope.launch {
             try {
                 val result = repository.getProductRecommendation(query)
                 _productRecommendation.postValue(result)
+                _isLoading.postValue(true)
             } catch (e: Exception) {
-                // Handle the exception, e.g., show an error message
                 Log.e("ViewModel", "Failed to fetch product recommendation", e)
-            } finally {
-                _isLoading.postValue(false) // Set loading to false after the operation is done
+                _isLoading.postValue(false)
             }
         }
     }

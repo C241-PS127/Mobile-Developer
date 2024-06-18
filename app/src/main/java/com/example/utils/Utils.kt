@@ -32,8 +32,7 @@ fun getImageUri(context: Context): Uri {
             put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/MyCamera/")
         }
         uri = context.contentResolver.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            contentValues
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues
         )
     }
     return uri ?: getImageUriForPreQ(context)
@@ -44,9 +43,7 @@ private fun getImageUriForPreQ(context: Context): Uri {
     val imageFile = File(filesDir, "/MyCamera/$timeStamp.jpg")
     if (imageFile.parentFile?.exists() == false) imageFile.parentFile?.mkdir()
     return FileProvider.getUriForFile(
-        context,
-        "com.example.lokalin.fileprovider",
-        imageFile
+        context, "com.example.lokalin.fileprovider", imageFile
     )
 }
 

@@ -1,17 +1,13 @@
 package com.example.lokalin.ui.detailproduct
 
-import android.content.Context
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.datastore.core.IOException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.repo.Repository
-import com.example.response.AddCartResponse
-import com.example.response.ProductsItem
-import com.example.response.RegisterResponse
+import com.example.data.Repository
+import com.example.data.response.AddCartResponse
+import com.example.data.response.ProductsItem
 import com.example.utils.ResultState
 import kotlinx.coroutines.launch
 
@@ -38,6 +34,7 @@ class DetailViewModel(private val repository: Repository) : ViewModel() {
             }
         }
     }
+
     fun addCart(token: String, productId: String, count: Int) {
         viewModelScope.launch {
             try {

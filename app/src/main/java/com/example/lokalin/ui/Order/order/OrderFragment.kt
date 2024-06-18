@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.databinding.FragmentOrderBinding
-import com.example.lokalin.ui.home.OrderAdapter
+import com.example.lokalin.adapter.OrderAdapter
 
 class OrderFragment : Fragment() {
 
@@ -21,8 +21,7 @@ class OrderFragment : Fragment() {
     private lateinit var tokenUser: String
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         return binding.root
