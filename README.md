@@ -1,4 +1,4 @@
-# Lokal.Ind Mobile Development Documentation
+# Lokal.Ind
 
 Welcome to the official repository of the Lokal.Ind Android App project. This repository hosts the Android application developed using XML for layout and Kotlin for development, designed specifically for the Lokal.Ind eCommerce Platform supporting local brands.
 
@@ -7,7 +7,7 @@ Welcome to the official repository of the Lokal.Ind Android App project. This re
 ## Overview
 
 **Project Overview:**
-This project encompasses UI/UX design and development targeting a minimum API Level 21 (Android 5.0). The layout design was crafted using tools like Figma and XML, integrating crucial libraries and frameworks such as Retrofit and Firebase.
+This project encompasses UI/UX design and development targeting a minimum API Level 21 (Android 5.0). The layout design was crafted using tools like XML, integrating crucial libraries and frameworks such as Retrofit and Firebase.
 
 ---
 
