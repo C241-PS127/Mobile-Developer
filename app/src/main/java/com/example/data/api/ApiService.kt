@@ -10,6 +10,8 @@ import com.example.data.response.CartResponseItem
 import com.example.data.response.CategoryResponseItem
 import com.example.data.response.LoginResponse
 import com.example.data.response.Payment
+import com.example.data.response.PredictionRequest
+import com.example.data.response.PredictionResponse
 import com.example.data.response.ProductRecommendation
 import com.example.data.response.ProductResponse
 import com.example.data.response.ProductsItem
@@ -20,7 +22,9 @@ import com.example.data.response.UserProfileResponseItem
 import com.example.data.response.WishlistResponseItem
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -32,6 +36,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 
 interface ApiService {
@@ -173,5 +178,8 @@ interface ApiService {
     @GET("orderStatus")
     suspend fun getOrderStatus(
     ): List<OrderStatusItem>
+
+    @POST
+    fun predict(@Url url: String, @Body request: PredictionRequest): Call<PredictionResponse>
 
 }

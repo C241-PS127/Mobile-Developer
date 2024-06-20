@@ -15,6 +15,8 @@ import com.example.data.response.CartResponseItem
 import com.example.data.response.CategoryResponseItem
 import com.example.data.response.LoginResponse
 import com.example.data.response.Payment
+import com.example.data.response.PredictionRequest
+import com.example.data.response.PredictionResponse
 import com.example.data.response.ProductItem
 import com.example.data.response.ProductsItem
 import com.example.data.response.RegisterResponse
@@ -31,6 +33,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
 import retrofit2.HttpException
 import java.io.File
 
@@ -42,6 +45,10 @@ class Repository private constructor(
 
     fun getProductsPagingSource(): PagingSource<Int, ProductsItem> {
         return ProductPagingSource(apiService)
+    }
+
+    fun predict(url: String, request: PredictionRequest): Call<PredictionResponse> {
+        return apiService.predict(url, request)
     }
 
     suspend fun getProductsByBrand(brandName: String): List<ProductsItem> {

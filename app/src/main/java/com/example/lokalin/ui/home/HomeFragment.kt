@@ -164,24 +164,27 @@ class HomeFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                val cursor = getSuggestions(newText)
-                cursorAdapter.changeCursor(cursor)
+                val fullUrl = "https://nextwords-app-tjhaye3n5q-et.a.run.app/predict"
+                if (newText != null) {
+                    viewModel.predict(fullUrl, newText)
+                }
+                viewModel.prediction.observe(viewLifecycleOwner, Observer { predictedText ->
+                    val cursor = getSuggestions(predictedText)
+                    cursorAdapter.changeCursor(cursor)
+                })
                 return true
             }
         })
     }
 
-    private fun getSuggestions(query: String?): Cursor {
+    private fun getSuggestions(predictedText: String?): Cursor {
         val matrixCursor =
             MatrixCursor(arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1))
-        if (query != null) {
-            // Dummy data for demonstration, replace with real data
-            val suggestions = listOf("haloz 1", "rezqi 2", "erigo 3")
+        if (predictedText != null) {
+            val suggestions = listOf(predictedText)
             var id = 0
             for (suggestion in suggestions) {
-                if (suggestion.contains(query, true)) {
-                    matrixCursor.addRow(arrayOf(id++, suggestion))
-                }
+                matrixCursor.addRow(arrayOf(id++, suggestion))
             }
         }
         return matrixCursor

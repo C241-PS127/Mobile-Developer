@@ -1,6 +1,10 @@
 package com.example.lokalin.ui.search
 
+import android.app.SearchManager
+import android.database.Cursor
+import android.database.MatrixCursor
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +12,12 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioButton
 import androidx.appcompat.widget.SearchView
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +27,7 @@ import com.example.lokalin.ViewModelFactory
 import com.example.lokalin.adapter.BrandAdapter
 import com.example.lokalin.adapter.RecommendationAdapterSearch
 import com.example.lokalin.databinding.FragmentSearchBinding
+import com.example.lokalin.ui.home.HomeFragmentDirections
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SearchFragment : Fragment() {
@@ -52,19 +60,69 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupSearchView() {
+        val from = arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1)
+        val to = intArrayOf(R.id.searchItemID)
+        val cursorAdapter = SimpleCursorAdapter(
+            requireContext(),
+            R.layout.suggestion_item_layout,
+            null,
+            from,
+            to,
+            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
+        )
+
+        binding.searchview.suggestionsAdapter = cursorAdapter
+
+        binding.searchview.setOnSuggestionListener(object : SearchView.OnSuggestionListener {
+            override fun onSuggestionSelect(position: Int): Boolean {
+                return true
+            }
+
+            override fun onSuggestionClick(position: Int): Boolean {
+                val cursor = binding.searchview.suggestionsAdapter.getItem(position) as Cursor
+                val columnIndex = cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1)
+                if (columnIndex >= 0) {
+                    val suggestion = cursor.getString(columnIndex)
+                    binding.searchview.setQuery(suggestion, true)
+                }
+                binding.searchview.setQuery("", false)
+                return true
+            }
+        })
+
         binding.searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     viewModel.getProductRecommendation(it)
-
                 }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                return false
+                val fullUrl = "https://nextwords-app-tjhaye3n5q-et.a.run.app/predict"
+                if (newText != null) {
+                    viewModel.predict(fullUrl, newText)
+                }
+                viewModel.prediction.observe(viewLifecycleOwner, Observer { predictedText ->
+                    val cursor = getSuggestions(predictedText)
+                    cursorAdapter.changeCursor(cursor)
+                })
+                return true
             }
         })
+    }
+
+    private fun getSuggestions(predictedText: String?): Cursor {
+        val matrixCursor =
+            MatrixCursor(arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1))
+        if (predictedText != null) {
+            val suggestions = listOf(predictedText)
+            var id = 0
+            for (suggestion in suggestions) {
+                matrixCursor.addRow(arrayOf(id++, suggestion))
+            }
+        }
+        return matrixCursor
     }
 
     private fun setFilterData() {

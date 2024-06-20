@@ -12,6 +12,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.data.Repository
 import com.example.data.response.Brand
+import com.example.data.response.PredictionRequest
+import com.example.data.response.PredictionResponse
 import com.example.data.response.ProductsItem
 import com.example.data.response.SliderModel
 import com.example.storyapp.data.pref.UserModel
@@ -20,6 +22,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeViewModel(private val repository: Repository) : ViewModel() {
     private val firebaseDatabase = FirebaseDatabase.getInstance()
@@ -41,6 +46,9 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
 
     private val _brands = MutableLiveData<List<Brand>>()
     val brands: LiveData<List<Brand>> get() = _brands
+
+    private val _prediction = MutableLiveData<String>()
+    val prediction: LiveData<String> get() = _prediction
 
 
     fun getSession(): LiveData<UserModel> {
@@ -137,6 +145,25 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
                 _isLoading2.postValue(true)
 
             }
+        }
+    }
+
+    fun predict(url: String, seedText: String) {
+        viewModelScope.launch {
+            val request = PredictionRequest(seedText)
+            repository.predict(url, request).enqueue(object : Callback<PredictionResponse> {
+                override fun onResponse(call: Call<PredictionResponse>, response: Response<PredictionResponse>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        _prediction.value = response.body()!!.predicted_text
+                    } else {
+                        _prediction.value = "Failed to get response"
+                    }
+                }
+
+                override fun onFailure(call: Call<PredictionResponse>, t: Throwable) {
+                    _prediction.value = "Error: ${t.message}"
+                }
+            })
         }
     }
 }
